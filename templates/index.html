@@ -1,0 +1,99 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","align":"full","className":"blog-index","layout":{"type":"constrained"}} -->
+<main class="wp-block-group alignfull blog-index">
+
+	<!-- wp:group {"align":"wide","className":"blog-index__intro","layout":{"type":"constrained","justifyContent":"left"}} -->
+	<div class="wp-block-group alignwide blog-index__intro">
+
+		<!-- wp:paragraph {"className":"blog-index__eyebrow"} -->
+		<p class="blog-index__eyebrow">Baza wiedzy</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:heading {"level":1,"className":"blog-index__title"} -->
+		<h1 class="wp-block-heading blog-index__title">Najnowsze wpisy</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"className":"blog-index__description"} -->
+		<p class="blog-index__description">
+			Poradniki, inspiracje i praktyczne informacje zebrane w jednym miejscu.
+		</p>
+		<!-- /wp:paragraph -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"align":"wide","className":"blog-index__query"} -->
+	<div class="wp-block-query alignwide blog-index__query">
+
+		<!-- wp:post-template {"className":"blog-grid","layout":{"type":"grid","columnCount":3}} -->
+
+			<!-- wp:group {"className":"post-card","layout":{"type":"constrained"}} -->
+			<div class="wp-block-group post-card">
+
+				<!-- wp:post-featured-image {"isLink":true,"className":"post-card__image"} /-->
+
+				<!-- wp:group {"className":"post-card__content","layout":{"type":"constrained"}} -->
+				<div class="wp-block-group post-card__content">
+
+					<!-- wp:post-terms {"term":"category","separator":" · ","className":"post-card__categories"} /-->
+
+					<!-- wp:post-title {"isLink":true,"level":2,"className":"post-card__title"} /-->
+
+					<!-- wp:post-excerpt {"moreText":"Czytaj dalej","showMoreOnNewLine":true,"className":"post-card__excerpt"} /-->
+
+					<!-- wp:group {"className":"post-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+					<div class="wp-block-group post-card__meta">
+
+						<!-- wp:post-date {"className":"post-card__date"} /-->
+
+						<!-- wp:post-author-name {"className":"post-card__author"} /-->
+
+					</div>
+					<!-- /wp:group -->
+
+				</div>
+				<!-- /wp:group -->
+
+			</div>
+			<!-- /wp:group -->
+
+		<!-- /wp:post-template -->
+
+		<!-- wp:query-no-results -->
+
+			<!-- wp:group {"className":"blog-index__empty","layout":{"type":"constrained"}} -->
+			<div class="wp-block-group blog-index__empty">
+
+				<!-- wp:heading {"textAlign":"center","level":2} -->
+				<h2 class="wp-block-heading has-text-align-center">Brak wpisów</h2>
+				<!-- /wp:heading -->
+
+				<!-- wp:paragraph {"align":"center"} -->
+				<p class="has-text-align-center">
+					Wkrótce pojawią się tutaj nowe publikacje.
+				</p>
+				<!-- /wp:paragraph -->
+
+			</div>
+			<!-- /wp:group -->
+
+		<!-- /wp:query-no-results -->
+
+		<!-- wp:query-pagination {"className":"blog-pagination","layout":{"type":"flex","justifyContent":"center"}} -->
+
+			<!-- wp:query-pagination-previous {"label":"Poprzednie"} /-->
+
+			<!-- wp:query-pagination-numbers /-->
+
+			<!-- wp:query-pagination-next {"label":"Następne"} /-->
+
+		<!-- /wp:query-pagination -->
+
+	</div>
+	<!-- /wp:query -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->
