@@ -1690,6 +1690,130 @@ h3.wp-block-heading {
 }
 
 /* ==========================================================================
+   Project CTA
+   ========================================================================== */
+
+.project-cta {
+	position: relative;
+	overflow: hidden;
+	padding-block: clamp(4rem, 8vw, 7rem);
+	background-color: var(--wp--preset--color--primary-dark);
+}
+
+.project-cta::before,
+.project-cta::after {
+	position: absolute;
+	width: 24rem;
+	height: 24rem;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
+}
+
+.project-cta::before {
+	top: -15rem;
+	right: -7rem;
+}
+
+.project-cta::after {
+	bottom: -18rem;
+	left: -8rem;
+}
+
+.project-cta__inner {
+	position: relative;
+	z-index: 1;
+	gap: clamp(2rem, 5vw, 5rem);
+}
+
+.project-cta__content {
+	flex: 1 1 36rem;
+	max-width: 720px;
+}
+
+.project-cta__eyebrow {
+	margin: 0 0 1rem;
+	color: rgba(255, 255, 255, 0.7);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.project-cta__title {
+	max-width: 680px;
+	margin: 0;
+	color: var(--wp--preset--color--white);
+	font-size: clamp(2rem, 4vw, 3.5rem);
+	letter-spacing: -0.04em;
+	line-height: 1.12;
+}
+
+.project-cta__description {
+	max-width: 620px;
+	margin-top: 1.5rem;
+	margin-bottom: 0;
+	color: rgba(255, 255, 255, 0.72);
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.7;
+}
+
+.project-cta__actions {
+	flex: 0 1 auto;
+	gap: 0.75rem;
+}
+
+.project-cta__button .wp-block-button__link {
+	color: var(--wp--preset--color--primary-dark);
+	background-color: var(--wp--preset--color--white);
+}
+
+.project-cta__button .wp-block-button__link:hover {
+	color: var(--wp--preset--color--contrast);
+	background-color: var(--wp--preset--color--base);
+}
+
+.project-cta__button-outline .wp-block-button__link {
+	color: var(--wp--preset--color--white);
+	background-color: transparent;
+	border-color: rgba(255, 255, 255, 0.5);
+}
+
+.project-cta__button-outline .wp-block-button__link:hover {
+	color: var(--wp--preset--color--primary-dark);
+	background-color: var(--wp--preset--color--white);
+	border-color: var(--wp--preset--color--white);
+}
+
+@media (max-width: 781px) {
+	.project-cta__inner {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.project-cta__content {
+		flex-basis: auto;
+	}
+
+	.project-cta__actions {
+		width: 100%;
+	}
+}
+
+@media (max-width: 480px) {
+	.project-cta__actions,
+	.project-cta__actions .wp-block-button {
+		width: 100%;
+	}
+
+	.project-cta__actions .wp-block-button__link {
+		width: 100%;
+		text-align: center;
+	}
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
