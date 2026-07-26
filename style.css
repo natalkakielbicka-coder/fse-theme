@@ -1814,6 +1814,42 @@ h3.wp-block-heading {
 }
 
 /* ==========================================================================
+   Custom block styles
+   ========================================================================== */
+
+/* Grupa — Karta */
+
+.wp-block-group.is-style-fse-card {
+	padding: clamp(1.5rem, 3vw, 2rem);
+	background-color: var(--wp--preset--color--card);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 20px;
+	box-shadow: 0 14px 40px rgba(48, 41, 45, 0.06);
+}
+
+/* Przycisk — Ze strzałką */
+
+.wp-block-button.is-style-fse-arrow .wp-block-button__link {
+	display: inline-flex;
+	gap: 0.75rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.wp-block-button.is-style-fse-arrow .wp-block-button__link::after {
+	display: inline-block;
+	content: "→";
+	font-size: 1.15em;
+	line-height: 1;
+	transform: translateX(0);
+	transition: transform 0.2s ease;
+}
+
+.wp-block-button.is-style-fse-arrow .wp-block-button__link:hover::after {
+	transform: translateX(0.3rem);
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
