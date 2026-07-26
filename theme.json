@@ -59,6 +59,11 @@
           "name": "Szałwia",
           "slug": "sage",
           "color": "#A7ADA0"
+        },
+        {
+          "name": "Biały",
+          "slug": "white",
+          "color": "#FFFFFF"
         }
       ]
     },
