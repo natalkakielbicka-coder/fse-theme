@@ -64,6 +64,26 @@
           "name": "Biały",
           "slug": "white",
           "color": "#FFFFFF"
+        },
+        {
+          "name": "Karta",
+          "slug": "card",
+          "color": "#FFFFFF"
+        },
+        {
+          "name": "Tło nagłówka",
+          "slug": "header-background",
+          "color": "#FCF9F7"
+        },
+        {
+          "name": "Tło stopki",
+          "slug": "footer-background",
+          "color": "#30292D"
+        },
+        {
+          "name": "Tło CTA",
+          "slug": "cta-background",
+          "color": "#7E4F5E"
         }
       ]
     },

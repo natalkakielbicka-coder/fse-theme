@@ -1,0 +1,82 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Dark",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"name": "Tło",
+					"slug": "base",
+					"color": "#171316"
+				},
+				{
+					"name": "Tekst",
+					"slug": "contrast",
+					"color": "#F7F2F4"
+				},
+				{
+					"name": "Akcent",
+					"slug": "primary",
+					"color": "#D38EA3"
+				},
+				{
+					"name": "Ciemny akcent",
+					"slug": "primary-dark",
+					"color": "#E1A5B7"
+				},
+				{
+					"name": "Jasne tło",
+					"slug": "surface",
+					"color": "#211B1F"
+				},
+				{
+					"name": "Tekst pomocniczy",
+					"slug": "muted",
+					"color": "#BEB2B7"
+				},
+				{
+					"name": "Obramowanie",
+					"slug": "border",
+					"color": "#3B3036"
+				},
+				{
+					"name": "Szałwia",
+					"slug": "sage",
+					"color": "#B5BBAE"
+				},
+				{
+					"name": "Biały",
+					"slug": "white",
+					"color": "#FFFFFF"
+				},
+				{
+					"name": "Karta",
+					"slug": "card",
+					"color": "#241D21"
+				},
+                {
+                    "name": "Tło nagłówka",
+                    "slug": "header-background",
+                    "color": "#171316"
+                },
+                {
+                    "name": "Tło stopki",
+                    "slug": "footer-background",
+                    "color": "#0F0C0E"
+                },
+                {
+                    "name": "Tło CTA",
+                    "slug": "cta-background",
+                    "color": "#8F5265"
+                }
+			]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var:preset|color|base",
+			"text": "var:preset|color|contrast"
+		}
+	}
+}
