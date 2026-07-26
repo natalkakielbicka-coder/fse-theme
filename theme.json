@@ -8,7 +8,8 @@
 
     "layout": {
       "contentSize": "1200px",
-      "wideSize": "1920px"
+      "wideSize": "1440px",
+      "allowCustomContentAndWideSize": true
     },
 
     "color": {
@@ -445,6 +446,16 @@
       }
     }
   },
+
+  "customTemplates": [
+    {
+      "name": "landing-page",
+      "title": "Landing page — pełna szerokość",
+      "postTypes": [
+        "page"
+      ]
+    }
+  ],
 
   "templateParts": [
     {
