@@ -134,14 +134,47 @@
 
       "fontFamilies": [
         {
-          "name": "System Sans",
-          "slug": "system-sans",
-          "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
-        },
-        {
-          "name": "Elegant Serif",
-          "slug": "elegant-serif",
-          "fontFamily": "Georgia, \"Times New Roman\", serif"
+          "name": "Poppins",
+          "slug": "poppins",
+          "fontFamily": "\"Poppins\", sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Poppins",
+              "fontStyle": "normal",
+              "fontWeight": "400",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins/Poppins-Regular.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Poppins",
+              "fontStyle": "normal",
+              "fontWeight": "500",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins/Poppins-Medium.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Poppins",
+              "fontStyle": "normal",
+              "fontWeight": "600",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins/Poppins-SemiBold.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Poppins",
+              "fontStyle": "normal",
+              "fontWeight": "700",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins/Poppins-Bold.woff2"
+              ]
+            }
+          ]
         }
       ],
 
@@ -216,7 +249,7 @@
     },
 
     "typography": {
-      "fontFamily": "var:preset|font-family|system-sans",
+      "fontFamily": "var:preset|font-family|poppins",
       "fontSize": "var:preset|font-size|medium",
       "fontWeight": "400",
       "lineHeight": "1.6"
@@ -228,7 +261,7 @@
           "text": "var:preset|color|contrast"
         },
         "typography": {
-          "fontFamily": "var:preset|font-family|elegant-serif",
+          "fontFamily": "var:preset|font-family|poppins",
           "fontWeight": "600",
           "letterSpacing": "-0.015em",
           "lineHeight": "1.15"
@@ -320,7 +353,7 @@
 
       "core/site-title": {
         "typography": {
-          "fontFamily": "var:preset|font-family|elegant-serif",
+          "fontFamily": "var:preset|font-family|poppins",
           "fontSize": "var:preset|font-size|x-large",
           "fontWeight": "600",
           "lineHeight": "1"
@@ -337,7 +370,7 @@
 
       "core/post-title": {
         "typography": {
-          "fontFamily": "var:preset|font-family|elegant-serif",
+          "fontFamily": "var:preset|font-family|poppins",
           "fontWeight": "600",
           "lineHeight": "1.2"
         }
