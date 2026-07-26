@@ -1,0 +1,37 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","align":"full","className":"error-page","layout":{"type":"constrained"}} -->
+<main class="wp-block-group alignfull error-page">
+
+	<!-- wp:group {"align":"wide","className":"error-page__inner","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignwide error-page__inner">
+
+		<!-- wp:paragraph {"align":"center","className":"error-page__code"} -->
+		<p class="has-text-align-center error-page__code">404</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:heading {"textAlign":"center","level":1,"className":"error-page__title"} -->
+		<h1 class="wp-block-heading has-text-align-center error-page__title">
+			Nie znaleziono strony
+		</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"align":"center","textColor":"muted","className":"error-page__description"} -->
+		<p class="has-text-align-center has-muted-color has-text-color error-page__description">
+			Strona, której szukasz, nie istnieje, została przeniesiona albo jej adres jest nieprawidłowy.
+		</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:search {"label":"Wyszukaj na stronie","showLabel":false,"placeholder":"Czego szukasz?","buttonText":"Szukaj","buttonPosition":"button-inside","className":"error-page__search"} /-->
+
+		<!-- wp:navigation {"overlayMenu":"never","className":"error-page__home","layout":{"type":"flex","justifyContent":"center"}} -->
+			<!-- wp:home-link {"label":"Wróć na stronę główną"} /-->
+		<!-- /wp:navigation -->
+
+	</div>
+	<!-- /wp:group -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->
