@@ -57,3 +57,43 @@ function fse_theme_register_block_styles(): void {
 	);
 }
 add_action( 'init', 'fse_theme_register_block_styles' );
+
+/**
+ * Return dynamic copyright text for a bound block.
+ *
+ * @param array    $source_args    Arguments passed by the block binding.
+ * @param WP_Block $block_instance Current block instance.
+ * @param string   $attribute_name Bound block attribute.
+ *
+ * @return string
+ */
+function fse_theme_get_copyright_binding_value(
+	array $source_args,
+	WP_Block $block_instance,
+	string $attribute_name
+): string {
+	return sprintf(
+		/* translators: 1: Current year, 2: Site name. */
+		esc_html__( '© %1$s %2$s. Wszelkie prawa zastrzeżone.', 'fse-theme' ),
+		esc_html( wp_date( 'Y' ) ),
+		esc_html( get_bloginfo( 'name' ) )
+	);
+}
+
+/**
+ * Register custom Block Bindings sources.
+ */
+function fse_theme_register_block_bindings_sources(): void {
+	if ( ! function_exists( 'register_block_bindings_source' ) ) {
+		return;
+	}
+
+	register_block_bindings_source(
+		'fse-theme/copyright',
+		array(
+			'label'              => __( 'Informacja copyright', 'fse-theme' ),
+			'get_value_callback' => 'fse_theme_get_copyright_binding_value',
+		)
+	);
+}
+add_action( 'init', 'fse_theme_register_block_bindings_sources' );
