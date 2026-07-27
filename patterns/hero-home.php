@@ -19,7 +19,7 @@
 		<!-- wp:group {"className":"home-hero__content","layout":{"type":"constrained"}} -->
 		<div class="wp-block-group home-hero__content">
 
-			<!-- wp:paragraph {"className":"home-hero__eyebrow"} -->
+			<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"fse_theme_hero_eyebrow"}}}},"className":"home-hero__eyebrow"} -->
 			<p class="home-hero__eyebrow">
 				WordPress Full Site Editing
 			</p>

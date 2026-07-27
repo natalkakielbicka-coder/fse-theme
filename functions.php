@@ -97,3 +97,30 @@ function fse_theme_register_block_bindings_sources(): void {
 	);
 }
 add_action( 'init', 'fse_theme_register_block_bindings_sources' );
+
+/**
+ * Keep the native WordPress custom fields panel available
+ * when Advanced Custom Fields is active.
+ */
+add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
+
+/**
+ * Register page metadata used by Block Bindings.
+ */
+function fse_theme_register_page_meta(): void {
+	add_post_type_support( 'page', 'custom-fields' );
+
+	register_post_meta(
+		'page',
+		'fse_theme_hero_eyebrow',
+		array(
+			'type'              => 'string',
+			'single'            => true,
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'sanitize_text_field',
+			'label'             => __( 'Nadtytuł Hero', 'fse-theme' ),
+			'default'           => 'WordPress Full Site Editing',
+		)
+	);
+}
+add_action( 'init', 'fse_theme_register_page_meta' );
