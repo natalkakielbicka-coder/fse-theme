@@ -10,13 +10,13 @@
  */
 ?>
 
-<!-- wp:group {"tagName":"section","align":"full","className":"project-cta","layout":{"type":"constrained"}} -->
+<!-- wp:group {"tagName":"section","align":"full","className":"project-cta","templateLock":"contentOnly","allowedBlocks":[],"lock":{"move":true,"remove":true},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull project-cta">
 
-	<!-- wp:group {"align":"wide","className":"project-cta__inner","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+	<!-- wp:group {"align":"wide","className":"project-cta__inner","allowedBlocks":[],"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 	<div class="wp-block-group alignwide project-cta__inner">
 
-		<!-- wp:group {"className":"project-cta__content","layout":{"type":"constrained","justifyContent":"left"}} -->
+		<!-- wp:group {"className":"project-cta__content","allowedBlocks":[],"layout":{"type":"constrained","justifyContent":"left"}} -->
 		<div class="wp-block-group project-cta__content">
 
 			<!-- wp:paragraph {"className":"project-cta__eyebrow"} -->
@@ -41,7 +41,7 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:buttons {"className":"project-cta__actions","layout":{"type":"flex","flexWrap":"wrap"}} -->
+		<!-- wp:buttons {"className":"project-cta__actions","allowedBlocks":[],"layout":{"type":"flex","flexWrap":"wrap"}} -->
 		<div class="wp-block-buttons project-cta__actions">
 
 			<!-- wp:button {"className":"project-cta__button"} -->
