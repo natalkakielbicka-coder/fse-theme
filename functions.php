@@ -124,3 +124,32 @@ function fse_theme_register_page_meta(): void {
 	);
 }
 add_action( 'init', 'fse_theme_register_page_meta' );
+
+/**
+ * Load custom block variations in the Block Editor.
+ */
+function fse_theme_enqueue_block_variations(): void {
+	$script_path = get_theme_file_path(
+		'assets/js/block-variations.js'
+	);
+
+	if ( ! file_exists( $script_path ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'fse-theme-block-variations',
+		get_theme_file_uri( 'assets/js/block-variations.js' ),
+		array(
+			'wp-blocks',
+			'wp-dom-ready',
+			'wp-i18n',
+		),
+		(string) filemtime( $script_path ),
+		true
+	);
+}
+add_action(
+	'enqueue_block_editor_assets',
+	'fse_theme_enqueue_block_variations'
+);
