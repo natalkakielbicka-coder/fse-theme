@@ -29,6 +29,10 @@
           "content": "Zawartość trzeciej zakładki."
         }
       ]
+    },
+    "tabStyle": {
+      "type": "string",
+      "default": "underline"
     }
   }
 }
