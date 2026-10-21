@@ -1,10 +1,16 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
-export default function save() {
+export default function save({ attributes }) {
+  const { tabs = [] } = attributes;
+
   return (
     <div {...useBlockProps.save()}>
-      <h3>Moje interaktywne zakładki React</h3>
-      <p>Mój pierwszy blok React!</p>
+      {tabs.map((tab, index) => (
+        <div key={index}>
+          <h3>{tab.title}</h3>
+          <p>{tab.content}</p>
+        </div>
+      ))}
     </div>
   );
 }
