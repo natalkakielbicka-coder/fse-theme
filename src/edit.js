@@ -47,6 +47,24 @@ export default function Edit({ attributes, setAttributes }) {
     });
   };
 
+  const moveTab = (direction) => {
+    const newIndex = activeTab + direction;
+
+    if (newIndex < 0 || newIndex >= tabs.length) {
+      return;
+    }
+
+    const updatedTabs = [...tabs];
+
+    [updatedTabs[activeTab], updatedTabs[newIndex]] = [
+      updatedTabs[newIndex],
+      updatedTabs[activeTab],
+    ];
+
+    setAttributes({ tabs: updatedTabs });
+    setActiveTab(newIndex);
+  };
+
   const updateTab = (index, field, value) => {
     const updatedTabs = tabs.map((tab, i) =>
       i === index ? { ...tab, [field]: value } : tab,
@@ -112,6 +130,24 @@ export default function Edit({ attributes, setAttributes }) {
               value={currentTab.content}
               onChange={(value) => updateTab(activeTab, "content", value)}
             />
+
+            <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+              <Button
+                variant="secondary"
+                disabled={activeTab === 0}
+                onClick={() => moveTab(-1)}
+              >
+                ← Przesuń w lewo
+              </Button>
+
+              <Button
+                variant="secondary"
+                disabled={activeTab === tabs.length - 1}
+                onClick={() => moveTab(1)}
+              >
+                Przesuń w prawo →
+              </Button>
+            </div>
 
             <Button
               variant="secondary"

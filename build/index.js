@@ -107,6 +107,18 @@ function Edit({
       return current;
     });
   };
+  const moveTab = direction => {
+    const newIndex = activeTab + direction;
+    if (newIndex < 0 || newIndex >= tabs.length) {
+      return;
+    }
+    const updatedTabs = [...tabs];
+    [updatedTabs[activeTab], updatedTabs[newIndex]] = [updatedTabs[newIndex], updatedTabs[activeTab]];
+    setAttributes({
+      tabs: updatedTabs
+    });
+    setActiveTab(newIndex);
+  };
   const updateTab = (index, field, value) => {
     const updatedTabs = tabs.map((tab, i) => i === index ? {
       ...tab,
@@ -170,6 +182,23 @@ function Edit({
           label: "Tre\u015B\u0107 zak\u0142adki",
           value: currentTab.content,
           onChange: value => updateTab(activeTab, "content", value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          style: {
+            display: "flex",
+            gap: "8px",
+            marginBottom: "12px"
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            variant: "secondary",
+            disabled: activeTab === 0,
+            onClick: () => moveTab(-1),
+            children: "\u2190 Przesu\u0144 w lewo"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            variant: "secondary",
+            disabled: activeTab === tabs.length - 1,
+            onClick: () => moveTab(1),
+            children: "Przesu\u0144 w prawo \u2192"
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
           variant: "secondary",
           isDestructive: true,
