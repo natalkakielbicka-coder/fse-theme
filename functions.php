@@ -187,3 +187,23 @@ function fse_theme_browsersync(): void {
 }
 add_action( 'wp_footer', 'fse_theme_browsersync', 100 );
 add_action( 'admin_footer', 'fse_theme_browsersync', 100 );
+
+/**
+ * Load Tabs frontend interactions.
+ */
+function fse_theme_enqueue_tabs_script(): void {
+    $path = get_theme_file_path( 'src/tabs.js' );
+
+    if ( ! file_exists( $path ) ) {
+        return;
+    }
+
+    wp_enqueue_script(
+        'fse-theme-tabs',
+        get_theme_file_uri( 'src/tabs.js' ),
+        array(),
+        (string) filemtime( $path ),
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'fse_theme_enqueue_tabs_script' );
