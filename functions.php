@@ -165,3 +165,25 @@ function fse_theme_register_custom_blocks(): void {
     }
 }
 add_action( 'init', 'fse_theme_register_custom_blocks' );
+
+/**
+ * BrowserSync Live Reload — local development only.
+ */
+function fse_theme_browsersync(): void {
+    if (
+        ! defined( 'WP_ENVIRONMENT_TYPE' ) ||
+        WP_ENVIRONMENT_TYPE !== 'local'
+    ) {
+        return;
+    }
+
+    ?>
+    <script
+        async
+        id="__bs_script__"
+        src="http://localhost:3000/browser-sync/browser-sync-client.js"
+    ></script>
+    <?php
+}
+add_action( 'wp_footer', 'fse_theme_browsersync', 100 );
+add_action( 'admin_footer', 'fse_theme_browsersync', 100 );

@@ -73,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
 function Edit() {
   const [activeTab, setActiveTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const tabs = [{
-    title: "Opis",
+    title: "Opis zakładki",
     content: "To jest zawartość pierwszej zakładki."
   }, {
     title: "Specyfikacja",
@@ -86,7 +86,7 @@ function Edit() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     ...blockProps,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
-      children: "FSE \u2014 Tabs"
+      children: "Moje interaktywne zak\u0142adki"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       style: {
         display: "flex",
@@ -134,7 +134,7 @@ function save() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-      children: "FSE \u2014 Tabs"
+      children: "Moje interaktywne zak\u0142adki React"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
       children: "M\xF3j pierwszy blok React!"
     })]

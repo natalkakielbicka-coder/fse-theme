@@ -7,7 +7,7 @@ export default function Edit() {
 
   const tabs = [
     {
-      title: "Opis",
+      title: "Opis zakładki",
       content: "To jest zawartość pierwszej zakładki.",
     },
     {
@@ -24,7 +24,7 @@ export default function Edit() {
 
   return (
     <div {...blockProps}>
-      <h3>FSE — Tabs</h3>
+      <h3>Moje interaktywne zakładki</h3>
 
       <div
         style={{
