@@ -1,10 +1,14 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
 export default function save({ attributes }) {
-  const { tabs = [] } = attributes;
+  const { tabs = [], tabStyle = "underline" } = attributes;
 
   return (
-    <div {...useBlockProps.save()}>
+    <div
+      {...useBlockProps.save({
+        className: `fse-tabs--${tabStyle}`,
+      })}
+    >
       <div className="fse-tabs__nav">
         {tabs.map((tab, index) => (
           <button key={index} type="button" className="fse-tabs__button">
