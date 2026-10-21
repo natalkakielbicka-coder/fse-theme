@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "fse-theme/tabs",
+  "version": "1.0.0",
+  "title": "FSE — Tabs",
+  "category": "design",
+  "icon": "index-card",
+  "description": "Własny blok zakładek React.",
+  "textdomain": "fse-theme",
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js"
+}

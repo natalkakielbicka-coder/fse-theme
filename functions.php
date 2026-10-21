@@ -153,3 +153,15 @@ add_action(
 	'enqueue_block_editor_assets',
 	'fse_theme_enqueue_block_variations'
 );
+
+/**
+ * Register custom Gutenberg blocks.
+ */
+function fse_theme_register_custom_blocks(): void {
+    $block_path = get_theme_file_path( 'build' );
+
+    if ( file_exists( $block_path . '/block.json' ) ) {
+        register_block_type( $block_path );
+    }
+}
+add_action( 'init', 'fse_theme_register_custom_blocks' );
