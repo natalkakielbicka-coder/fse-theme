@@ -75,7 +75,8 @@ function Edit({
   setAttributes
 }) {
   const {
-    tabs = []
+    tabs = [],
+    tabStyle = "underline"
   } = attributes;
   const [activeTab, setActiveTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const addTab = () => {
@@ -108,43 +109,66 @@ function Edit({
     });
   };
   const currentTab = tabs[activeTab];
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
-      children: "FSE \u2014 Tabs"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: "Ustawienia zak\u0142adek",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+          label: "Styl zak\u0142adek",
+          value: tabStyle,
+          options: [{
+            label: "Podkreślenie",
+            value: "underline"
+          }, {
+            label: "Przyciski",
+            value: "buttons"
+          }, {
+            label: "Pigułki",
+            value: "pills"
+          }],
+          onChange: value => setAttributes({
+            tabStyle: value
+          })
+        })
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      style: {
-        display: "flex",
-        gap: "8px",
-        flexWrap: "wrap"
-      },
-      children: [tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-        variant: activeTab === index ? "primary" : "secondary",
-        onClick: () => setActiveTab(index),
-        children: tab.title
-      }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-        variant: "tertiary",
-        onClick: addTab,
-        children: "+ Dodaj zak\u0142adk\u0119"
-      })]
-    }), currentTab && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      style: {
-        marginTop: "20px"
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-        label: "Nazwa zak\u0142adki",
-        value: currentTab.title,
-        onChange: value => updateTab(activeTab, "title", value)
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
-        label: "Tre\u015B\u0107 zak\u0142adki",
-        value: currentTab.content,
-        onChange: value => updateTab(activeTab, "content", value)
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-        variant: "secondary",
-        isDestructive: true,
-        disabled: tabs.length <= 1,
-        onClick: () => removeTab(activeTab),
-        children: "Usu\u0144 zak\u0142adk\u0119"
+      ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+        children: "FSE \u2014 Tabs"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        style: {
+          display: "flex",
+          gap: "8px",
+          flexWrap: "wrap"
+        },
+        children: [tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+          variant: activeTab === index ? "primary" : "secondary",
+          onClick: () => setActiveTab(index),
+          children: tab.title
+        }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+          variant: "tertiary",
+          onClick: addTab,
+          children: "+ Dodaj zak\u0142adk\u0119"
+        })]
+      }), currentTab && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        style: {
+          marginTop: "20px"
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: "Nazwa zak\u0142adki",
+          value: currentTab.title,
+          onChange: value => updateTab(activeTab, "title", value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+          label: "Tre\u015B\u0107 zak\u0142adki",
+          value: currentTab.content,
+          onChange: value => updateTab(activeTab, "content", value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+          variant: "secondary",
+          isDestructive: true,
+          disabled: tabs.length <= 1,
+          onClick: () => removeTab(activeTab),
+          children: "Usu\u0144 zak\u0142adk\u0119"
+        })]
       })]
     })]
   });
