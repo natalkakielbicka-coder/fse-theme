@@ -1906,7 +1906,7 @@ h3.wp-block-heading {
 }
 
 .fse-tabs__button:hover,
-.fse-tabs__button[aria-pressed="true"] {
+.fse-tabs__button[aria-selected="true"] {
   color: var(--wp--preset--color--primary-dark);
   border-bottom-color: var(--wp--preset--color--primary);
 }
@@ -1939,7 +1939,7 @@ h3.wp-block-heading {
 }
 
 .fse-tabs--buttons .fse-tabs__button:hover,
-.fse-tabs--buttons .fse-tabs__button[aria-pressed="true"] {
+.fse-tabs--buttons .fse-tabs__button[aria-selected="true"] {
   color: var(--wp--preset--color--white);
   background: var(--wp--preset--color--primary-dark);
   border-color: var(--wp--preset--color--primary-dark);
@@ -1959,7 +1959,7 @@ h3.wp-block-heading {
 }
 
 .fse-tabs--pills .fse-tabs__button:hover,
-.fse-tabs--pills .fse-tabs__button[aria-pressed="true"] {
+.fse-tabs--pills .fse-tabs__button[aria-selected="true"] {
   color: var(--wp--preset--color--white);
   background: var(--wp--preset--color--primary);
 }

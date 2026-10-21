@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
       buttons.forEach((button, index) => {
         const isActive = index === activeIndex;
 
-        button.setAttribute("aria-pressed", String(isActive));
+        button.setAttribute("aria-selected", String(isActive));
+        button.tabIndex = isActive ? 0 : -1;
+
         panels[index].hidden = !isActive;
       });
     };
