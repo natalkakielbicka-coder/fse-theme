@@ -11,5 +11,24 @@
   "supports": {
     "html": false
   },
-  "editorScript": "file:./index.js"
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "tabs": {
+      "type": "array",
+      "default": [
+        {
+          "title": "Opis",
+          "content": "Zawartość pierwszej zakładki."
+        },
+        {
+          "title": "Specyfikacja",
+          "content": "Zawartość drugiej zakładki."
+        },
+        {
+          "title": "FAQ",
+          "content": "Zawartość trzeciej zakładki."
+        }
+      ]
+    }
+  }
 }

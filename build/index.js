@@ -70,45 +70,81 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Edit() {
+function Edit({
+  attributes,
+  setAttributes
+}) {
+  const {
+    tabs = []
+  } = attributes;
   const [activeTab, setActiveTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const tabs = [{
-    title: "Opis zakładki",
-    content: "To jest zawartość pierwszej zakładki."
-  }, {
-    title: "Specyfikacja",
-    content: "Tutaj znajdzie się specyfikacja produktu."
-  }, {
-    title: "FAQ",
-    content: "Tutaj umieścimy najczęściej zadawane pytania."
-  }];
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
+  const addTab = () => {
+    const updatedTabs = [...tabs, {
+      title: `Zakładka ${tabs.length + 1}`,
+      content: ""
+    }];
+    setAttributes({
+      tabs: updatedTabs
+    });
+    setActiveTab(updatedTabs.length - 1);
+  };
+  const removeTab = index => {
+    if (tabs.length <= 1) {
+      return;
+    }
+    const updatedTabs = tabs.filter((_, i) => i !== index);
+    setAttributes({
+      tabs: updatedTabs
+    });
+    setActiveTab(Math.min(activeTab, updatedTabs.length - 1));
+  };
+  const updateTab = (index, field, value) => {
+    const updatedTabs = tabs.map((tab, i) => i === index ? {
+      ...tab,
+      [field]: value
+    } : tab);
+    setAttributes({
+      tabs: updatedTabs
+    });
+  };
+  const currentTab = tabs[activeTab];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    ...blockProps,
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
-      children: "Moje interaktywne zak\u0142adki"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: "FSE \u2014 Tabs"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       style: {
         display: "flex",
-        gap: "10px",
-        marginBottom: "20px"
+        gap: "8px",
+        flexWrap: "wrap"
       },
-      children: tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      children: [tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
         variant: activeTab === index ? "primary" : "secondary",
         onClick: () => setActiveTab(index),
         children: tab.title
-      }, index))
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        variant: "tertiary",
+        onClick: addTab,
+        children: "+ Dodaj zak\u0142adk\u0119"
+      })]
+    }), currentTab && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       style: {
-        padding: "20px",
-        background: "#f5f5f5",
-        borderRadius: "8px",
-        color: "#222"
+        marginTop: "20px"
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h4", {
-        children: tabs[activeTab].title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-        children: tabs[activeTab].content
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: "Nazwa zak\u0142adki",
+        value: currentTab.title,
+        onChange: value => updateTab(activeTab, "title", value)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+        label: "Tre\u015B\u0107 zak\u0142adki",
+        value: currentTab.content,
+        onChange: value => updateTab(activeTab, "content", value)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        variant: "secondary",
+        isDestructive: true,
+        disabled: tabs.length <= 1,
+        onClick: () => removeTab(activeTab),
+        children: "Usu\u0144 zak\u0142adk\u0119"
       })]
     })]
   });
@@ -149,7 +185,7 @@ function save() {
   \************************/
 (module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fse-theme/tabs","version":"1.0.0","title":"FSE — Tabs","category":"design","icon":"index-card","description":"Własny blok zakładek React.","textdomain":"fse-theme","supports":{"html":false},"editorScript":"file:./index.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fse-theme/tabs","version":"1.0.0","title":"FSE — Tabs","category":"design","icon":"index-card","description":"Własny blok zakładek React.","textdomain":"fse-theme","supports":{"html":false},"editorScript":"file:./index.js","attributes":{"tabs":{"type":"array","default":[{"title":"Opis","content":"Zawartość pierwszej zakładki."},{"title":"Specyfikacja","content":"Zawartość drugiej zakładki."},{"title":"FAQ","content":"Zawartość trzeciej zakładki."}]}}}');
 
 /***/ }
 
