@@ -203,6 +203,8 @@ function save({
     }),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "fse-tabs__nav",
+      role: "tablist",
+      "aria-label": "Zak\u0142adki",
       children: tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
         type: "button",
         className: "fse-tabs__button",
@@ -212,6 +214,8 @@ function save({
       className: "fse-tabs__panels",
       children: tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "fse-tabs__panel",
+        role: "tabpanel",
+        hidden: index !== 0,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
           children: tab.content
         })

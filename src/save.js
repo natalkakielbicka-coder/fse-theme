@@ -9,7 +9,7 @@ export default function save({ attributes }) {
         className: `fse-tabs--${tabStyle}`,
       })}
     >
-      <div className="fse-tabs__nav">
+      <div className="fse-tabs__nav" role="tablist" aria-label="Zakładki">
         {tabs.map((tab, index) => (
           <button key={index} type="button" className="fse-tabs__button">
             {tab.title}
@@ -19,7 +19,12 @@ export default function save({ attributes }) {
 
       <div className="fse-tabs__panels">
         {tabs.map((tab, index) => (
-          <div key={index} className="fse-tabs__panel">
+          <div
+            key={index}
+            className="fse-tabs__panel"
+            role="tabpanel"
+            hidden={index !== 0}
+          >
             <p>{tab.content}</p>
           </div>
         ))}
