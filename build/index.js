@@ -97,7 +97,15 @@ function Edit({
     setAttributes({
       tabs: updatedTabs
     });
-    setActiveTab(Math.min(activeTab, updatedTabs.length - 1));
+    setActiveTab(current => {
+      if (current > index) {
+        return current - 1;
+      }
+      if (current === index) {
+        return Math.min(index, updatedTabs.length - 1);
+      }
+      return current;
+    });
   };
   const updateTab = (index, field, value) => {
     const updatedTabs = tabs.map((tab, i) => i === index ? {
