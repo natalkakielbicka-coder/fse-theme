@@ -2,7 +2,9 @@
 	'dependencies' => array(
 		'react-jsx-runtime',
 		'wp-block-editor',
-		'wp-blocks'
+		'wp-blocks',
+		'wp-components',
+		'wp-element'
 	),
-	'version' => '18de57f15febad2d6163'
+	'version' => '220cdb4710b703cb04d5'
 );
