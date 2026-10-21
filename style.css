@@ -1926,6 +1926,44 @@ h3.wp-block-heading {
   display: none;
 }
 
+/* Tabs — Buttons */
+
+.fse-tabs--buttons .fse-tabs__nav {
+  border-bottom: 0;
+}
+
+.fse-tabs--buttons .fse-tabs__button {
+  background: var(--wp--preset--color--surface);
+  border: 1px solid var(--wp--preset--color--border);
+  border-radius: 8px;
+}
+
+.fse-tabs--buttons .fse-tabs__button:hover,
+.fse-tabs--buttons .fse-tabs__button[aria-pressed="true"] {
+  color: var(--wp--preset--color--white);
+  background: var(--wp--preset--color--primary-dark);
+  border-color: var(--wp--preset--color--primary-dark);
+}
+
+/* Tabs — Pills */
+
+.fse-tabs--pills .fse-tabs__nav {
+  border-bottom: 0;
+}
+
+.fse-tabs--pills .fse-tabs__button {
+  padding: 0.75rem 1.5rem;
+  background: var(--wp--preset--color--surface);
+  border: 1px solid transparent;
+  border-radius: 999px;
+}
+
+.fse-tabs--pills .fse-tabs__button:hover,
+.fse-tabs--pills .fse-tabs__button[aria-pressed="true"] {
+  color: var(--wp--preset--color--white);
+  background: var(--wp--preset--color--primary);
+}
+
 @media (max-width: 781px) {
   .fse-section__columns {
     gap: var(--wp--preset--spacing--40);
