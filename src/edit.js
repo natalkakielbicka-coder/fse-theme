@@ -63,13 +63,19 @@ export default function Edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
 
-      <div {...useBlockProps()}>
+      <div
+        {...useBlockProps({
+          className: `fse-tabs--${tabStyle}`,
+        })}
+      >
         <h3>FSE — Tabs</h3>
 
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div className="fse-tabs__nav">
           {tabs.map((tab, index) => (
             <Button
               key={index}
+              className="fse-tabs__button"
+              aria-pressed={activeTab === index}
               variant={activeTab === index ? "primary" : "secondary"}
               onClick={() => setActiveTab(index)}
             >
