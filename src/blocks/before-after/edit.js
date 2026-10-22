@@ -9,18 +9,11 @@ import { Button, RangeControl } from "@wordpress/components";
 export default function Edit({ attributes, setAttributes }) {
   const { beforeImage = {}, afterImage = {}, position = 50 } = attributes;
 
-  const previewStyles = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
-    gap: "20px",
-    marginTop: "20px",
-  };
-
   return (
     <div {...useBlockProps()}>
       <h3>FSE — Before / After</h3>
 
-      <div className="fse-before-after__preview" style={previewStyles}>
+      <div className="fse-before-after__preview">
         <div>
           <MediaUploadCheck>
             <MediaUpload
@@ -101,6 +94,44 @@ export default function Edit({ attributes, setAttributes }) {
           )}
         </div>
       </div>
+
+      {beforeImage.url && afterImage.url && (
+        <div
+          className="fse-before-after__comparison"
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16 / 9",
+            overflow: "hidden",
+            marginTop: "20px",
+            borderRadius: "12px",
+          }}
+        >
+          <img
+            src={afterImage.url}
+            alt={afterImage.alt || "Zdjęcie po"}
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+
+          <img
+            src={beforeImage.url}
+            alt={beforeImage.alt || "Zdjęcie przed"}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              clipPath: `inset(0 ${100 - position}% 0 0)`,
+            }}
+          />
+        </div>
+      )}
 
       {/* Suwak porównania zdjęć */}
       <div style={{ marginTop: "24px" }}>
