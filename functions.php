@@ -158,7 +158,7 @@ add_action(
  * Register custom Gutenberg blocks.
  */
 function fse_theme_register_custom_blocks(): void {
-    $block_path = get_theme_file_path( 'build' );
+    $block_path = get_theme_file_path( 'build/blocks/tabs' );
 
     if ( file_exists( $block_path . '/block.json' ) ) {
         register_block_type( $block_path );

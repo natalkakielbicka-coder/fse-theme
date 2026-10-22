@@ -52,10 +52,10 @@ module.exports = window["wp"]["element"];
 
 /***/ },
 
-/***/ "./src/edit.js"
-/*!*********************!*\
-  !*** ./src/edit.js ***!
-  \*********************/
+/***/ "./src/blocks/tabs/edit.js"
+/*!*********************************!*\
+  !*** ./src/blocks/tabs/edit.js ***!
+  \*********************************/
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -261,10 +261,10 @@ function Edit({
 
 /***/ },
 
-/***/ "./src/save.js"
-/*!*********************!*\
-  !*** ./src/save.js ***!
-  \*********************/
+/***/ "./src/blocks/tabs/save.js"
+/*!*********************************!*\
+  !*** ./src/blocks/tabs/save.js ***!
+  \*********************************/
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -311,10 +311,10 @@ function save({
 
 /***/ },
 
-/***/ "./src/block.json"
-/*!************************!*\
-  !*** ./src/block.json ***!
-  \************************/
+/***/ "./src/blocks/tabs/block.json"
+/*!************************************!*\
+  !*** ./src/blocks/tabs/block.json ***!
+  \************************************/
 (module) {
 
 module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fse-theme/tabs","version":"1.0.0","title":"FSE — Tabs","category":"design","icon":"index-card","description":"Własny blok zakładek React.","textdomain":"fse-theme","supports":{"html":false},"editorScript":"file:./index.js","attributes":{"tabs":{"type":"array","default":[{"title":"Opis","content":"Zawartość pierwszej zakładki."},{"title":"Specyfikacja","content":"Zawartość drugiej zakładki."},{"title":"FAQ","content":"Zawartość trzeciej zakładki."}]},"tabStyle":{"type":"string","default":"underline"},"maxTabs":{"type":"number","default":10}}}');
@@ -378,14 +378,14 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
+/*!**********************************!*\
+  !*** ./src/blocks/tabs/index.js ***!
+  \**********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
-/* harmony import */ var _edit_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit.js */ "./src/edit.js");
-/* harmony import */ var _save_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save.js */ "./src/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./block.json */ "./src/blocks/tabs/block.json");
+/* harmony import */ var _edit_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit.js */ "./src/blocks/tabs/edit.js");
+/* harmony import */ var _save_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save.js */ "./src/blocks/tabs/save.js");
 
 
 
