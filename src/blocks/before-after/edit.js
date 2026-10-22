@@ -4,10 +4,10 @@ import {
   MediaUploadCheck,
 } from "@wordpress/block-editor";
 
-import { Button } from "@wordpress/components";
+import { Button, RangeControl } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
-  const { beforeImage = {}, afterImage = {} } = attributes;
+  const { beforeImage = {}, afterImage = {}, position = 50 } = attributes;
 
   const previewStyles = {
     display: "grid",
@@ -100,6 +100,19 @@ export default function Edit({ attributes, setAttributes }) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Suwak porównania zdjęć */}
+      <div style={{ marginTop: "24px" }}>
+        <RangeControl
+          label="Pozycja podziału zdjęć"
+          value={position}
+          onChange={(value) => setAttributes({ position: value })}
+          min={0}
+          max={100}
+          step={1}
+          __nextHasNoMarginBottom
+        />
       </div>
     </div>
   );
