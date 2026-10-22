@@ -150,11 +150,15 @@ export default function Edit({ attributes, setAttributes }) {
             borderRadius: "12px",
             touchAction: "none",
             cursor: "ew-resize",
+            userSelect: "none",
+            WebkitUserSelect: "none",
           }}
         >
           <img
             src={afterImage.url}
             alt={afterImage.alt || "Zdjęcie po"}
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             style={{
               display: "block",
               width: "100%",
@@ -166,6 +170,8 @@ export default function Edit({ attributes, setAttributes }) {
           <img
             src={beforeImage.url}
             alt={beforeImage.alt || "Zdjęcie przed"}
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             style={{
               position: "absolute",
               inset: 0,
@@ -173,6 +179,8 @@ export default function Edit({ attributes, setAttributes }) {
               height: "100%",
               objectFit: "cover",
               clipPath: `inset(0 ${100 - position}% 0 0)`,
+              userSelect: "none",
+              pointerEvents: "none",
             }}
           />
 
@@ -187,6 +195,8 @@ export default function Edit({ attributes, setAttributes }) {
               width: "3px",
               background: "#fff",
               transform: "translateX(-50%)",
+              pointerEvents: "none",
+              userSelect: "none",
               pointerEvents: "none",
             }}
           >
