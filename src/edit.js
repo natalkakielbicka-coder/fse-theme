@@ -154,6 +154,16 @@ export default function Edit({ attributes, setAttributes }) {
           </Button>
         </div>
 
+        <p
+          style={{
+            fontSize: "12px",
+            color: tabs.length >= maxTabs ? "#b32d2e" : "#757575",
+            marginTop: "8px",
+          }}
+        >
+          Wykorzystano {tabs.length} z {maxTabs} zakładek
+        </p>
+
         {currentTab && (
           <div style={{ marginTop: "20px" }}>
             <TextControl

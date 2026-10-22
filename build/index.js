@@ -206,6 +206,13 @@ function Edit({
           onClick: addTab,
           children: "+ Dodaj zak\u0142adk\u0119"
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+        style: {
+          fontSize: "12px",
+          color: tabs.length >= maxTabs ? "#b32d2e" : "#757575",
+          marginTop: "8px"
+        },
+        children: ["Wykorzystano ", tabs.length, " z ", maxTabs, " zak\u0142adek"]
       }), currentTab && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         style: {
           marginTop: "20px"
