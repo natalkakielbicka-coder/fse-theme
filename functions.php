@@ -158,10 +158,14 @@ add_action(
  * Register custom Gutenberg blocks.
  */
 function fse_theme_register_custom_blocks(): void {
-    $block_path = get_theme_file_path( 'build/blocks/tabs' );
+    $blocks_dir = get_theme_file_path( 'build/blocks' );
 
-    if ( file_exists( $block_path . '/block.json' ) ) {
-        register_block_type( $block_path );
+    if ( ! is_dir( $blocks_dir ) ) {
+        return;
+    }
+
+    foreach ( glob( $blocks_dir . '/*/block.json' ) ?: array() as $block_json ) {
+        register_block_type( dirname( $block_json ) );
     }
 }
 add_action( 'init', 'fse_theme_register_custom_blocks' );
