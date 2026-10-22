@@ -24,11 +24,14 @@ export default function save({ attributes }) {
           src={afterImage.url}
           alt={afterImage.alt || "Zdjęcie po"}
           className="fse-before-after__after"
+          draggable={false}
           style={{
             display: "block",
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            pointerEvents: "none",
+            userSelect: "none",
           }}
         />
 
@@ -37,6 +40,7 @@ export default function save({ attributes }) {
           src={beforeImage.url}
           alt={beforeImage.alt || "Zdjęcie przed"}
           className="fse-before-after__before"
+          draggable={false}
           style={{
             position: "absolute",
             inset: 0,
@@ -44,6 +48,8 @@ export default function save({ attributes }) {
             height: "100%",
             objectFit: "cover",
             clipPath: `inset(0 ${100 - position}% 0 0)`,
+            pointerEvents: "none",
+            userSelect: "none",
           }}
         />
 
@@ -86,6 +92,17 @@ export default function save({ attributes }) {
             ↔
           </span>
         </div>
+
+        {/* Natywny suwak porównania */}
+        <input
+          type="range"
+          className="fse-before-after__range"
+          min="0"
+          max="100"
+          step="1"
+          defaultValue={position}
+          aria-label="Pozycja porównania zdjęć"
+        />
       </div>
     </div>
   );
