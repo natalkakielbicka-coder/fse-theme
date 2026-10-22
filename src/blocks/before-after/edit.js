@@ -9,6 +9,23 @@ import { Button, RangeControl } from "@wordpress/components";
 export default function Edit({ attributes, setAttributes }) {
   const { beforeImage = {}, afterImage = {}, position = 50 } = attributes;
 
+  const handlePointerMove = (event) => {
+    if (event.buttons !== 1 && event.pointerType === "mouse") {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const percentage = (x / rect.width) * 100;
+
+    const newPosition = Math.min(100, Math.max(0, percentage));
+
+    setAttributes({
+      position: Math.round(newPosition),
+    });
+  };
+
   return (
     <div {...useBlockProps()}>
       <h3>FSE — Before / After</h3>
@@ -98,6 +115,11 @@ export default function Edit({ attributes, setAttributes }) {
       {beforeImage.url && afterImage.url && (
         <div
           className="fse-before-after__comparison"
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId);
+            handlePointerMove(event);
+          }}
+          onPointerMove={handlePointerMove}
           style={{
             position: "relative",
             width: "100%",
@@ -105,6 +127,8 @@ export default function Edit({ attributes, setAttributes }) {
             overflow: "hidden",
             marginTop: "20px",
             borderRadius: "12px",
+            touchAction: "none",
+            cursor: "ew-resize",
           }}
         >
           <img
