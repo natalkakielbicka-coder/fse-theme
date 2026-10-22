@@ -7,7 +7,7 @@ import {
 import { Button } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
-  const { beforeImage = {} } = attributes;
+  const { beforeImage = {}, afterImage = {} } = attributes;
 
   return (
     <div {...useBlockProps()}>
@@ -31,6 +31,27 @@ export default function Edit({ attributes, setAttributes }) {
               {beforeImage.url
                 ? "Zmień zdjęcie PRZED"
                 : "Wybierz zdjęcie PRZED"}
+            </Button>
+          )}
+        />
+      </MediaUploadCheck>
+
+      <MediaUploadCheck>
+        <MediaUpload
+          allowedTypes={["image"]}
+          value={afterImage.id}
+          onSelect={(media) =>
+            setAttributes({
+              afterImage: {
+                id: media.id,
+                url: media.url,
+                alt: media.alt || "",
+              },
+            })
+          }
+          render={({ open }) => (
+            <Button variant="primary" onClick={open}>
+              {afterImage.url ? "Zmień zdjęcie PO" : "Wybierz zdjęcie PO"}
             </Button>
           )}
         />
