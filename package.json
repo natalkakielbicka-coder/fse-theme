@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "wp-scripts start",
-    "build": "wp-scripts build",
+    "build": "wp-scripts build src/blocks/tabs/index.js src/blocks/before-after/index.js --output-path=build",
+    "start": "wp-scripts start src/blocks/tabs/index.js src/blocks/before-after/index.js --output-path=build",
     "dev": "concurrently -k \"npm run start\" \"browser-sync start --config bs-config.cjs\""
   },
   "repository": {

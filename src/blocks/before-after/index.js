@@ -1,8 +1,9 @@
 import { registerBlockType } from "@wordpress/blocks";
 
 import metadata from "./block.json";
+import Edit from "./edit.js";
 
 registerBlockType(metadata.name, {
-  edit: () => <p>FSE — Before / After działa!</p>,
+  edit: Edit,
   save: () => null,
 });
