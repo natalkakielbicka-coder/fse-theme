@@ -123,11 +123,21 @@ export default function Edit({ attributes, setAttributes }) {
               return;
             }
 
+            event.stopPropagation();
+            event.preventDefault();
+
             dragging.current = true;
             event.currentTarget.setPointerCapture(event.pointerId);
             handlePointerMove(event);
           }}
-          onPointerMove={handlePointerMove}
+          onPointerMove={(event) => {
+            if (!dragging.current) {
+              return;
+            }
+
+            event.stopPropagation();
+            handlePointerMove(event);
+          }}
           onPointerUp={(event) => {
             dragging.current = false;
 
