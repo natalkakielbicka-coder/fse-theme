@@ -1,3 +1,5 @@
+import { useRef } from "@wordpress/element";
+
 import {
   useBlockProps,
   MediaUpload,
@@ -8,9 +10,10 @@ import { Button, RangeControl } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
   const { beforeImage = {}, afterImage = {}, position = 50 } = attributes;
+  const dragging = useRef(false);
 
   const handlePointerMove = (event) => {
-    if (event.buttons !== 1 && event.pointerType === "mouse") {
+    if (!dragging.current) {
       return;
     }
 
@@ -116,10 +119,28 @@ export default function Edit({ attributes, setAttributes }) {
         <div
           className="fse-before-after__comparison"
           onPointerDown={(event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) {
+              return;
+            }
+
+            dragging.current = true;
             event.currentTarget.setPointerCapture(event.pointerId);
             handlePointerMove(event);
           }}
           onPointerMove={handlePointerMove}
+          onPointerUp={(event) => {
+            dragging.current = false;
+
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+              event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+          }}
+          onPointerCancel={() => {
+            dragging.current = false;
+          }}
+          onLostPointerCapture={() => {
+            dragging.current = false;
+          }}
           style={{
             position: "relative",
             width: "100%",
