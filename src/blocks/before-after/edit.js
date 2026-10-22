@@ -130,6 +130,43 @@ export default function Edit({ attributes, setAttributes }) {
               clipPath: `inset(0 ${100 - position}% 0 0)`,
             }}
           />
+
+          {/* Linia podziału i uchwyt */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: `${position}%`,
+              width: "3px",
+              background: "#fff",
+              transform: "translateX(-50%)",
+              pointerEvents: "none",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "44px",
+                height: "44px",
+                background: "#fff",
+                color: "#30292D",
+                borderRadius: "50%",
+                boxShadow: "0 3px 12px rgba(0,0,0,0.2)",
+                fontSize: "18px",
+                fontWeight: "bold",
+              }}
+            >
+              ↔
+            </span>
+          </div>
         </div>
       )}
 
