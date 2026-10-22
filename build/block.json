@@ -33,6 +33,10 @@
     "tabStyle": {
       "type": "string",
       "default": "underline"
+    },
+    "maxTabs": {
+      "type": "number",
+      "default": 10
     }
   }
 }
