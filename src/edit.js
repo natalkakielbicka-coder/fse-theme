@@ -9,10 +9,14 @@ import {
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
-  const { tabs = [], tabStyle = "underline" } = attributes;
+  const { tabs = [], tabStyle = "underline", maxTabs = 10 } = attributes;
   const [activeTab, setActiveTab] = useState(0);
 
   const addTab = () => {
+    if (tabs.length >= maxTabs) {
+      return;
+    }
+
     const updatedTabs = [
       ...tabs,
       {
@@ -103,6 +107,17 @@ export default function Edit({ attributes, setAttributes }) {
             ]}
             onChange={(value) => setAttributes({ tabStyle: value })}
           />
+
+          <SelectControl
+            label="Maksymalna liczba zakładek"
+            value={maxTabs}
+            options={[
+              { label: "3 zakładki", value: 3 },
+              { label: "5 zakładek", value: 5 },
+              { label: "10 zakładek", value: 10 },
+            ]}
+            onChange={(value) => setAttributes({ maxTabs: Number(value) })}
+          />
         </PanelBody>
       </InspectorControls>
 
@@ -126,7 +141,11 @@ export default function Edit({ attributes, setAttributes }) {
             </Button>
           ))}
 
-          <Button variant="tertiary" onClick={addTab}>
+          <Button
+            variant="tertiary"
+            disabled={tabs.length >= maxTabs}
+            onClick={addTab}
+          >
             + Dodaj zakładkę
           </Button>
         </div>
