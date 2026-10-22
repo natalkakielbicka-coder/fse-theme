@@ -65,6 +65,20 @@ export default function Edit({ attributes, setAttributes }) {
     setActiveTab(newIndex);
   };
 
+  const duplicateTab = () => {
+    const copiedTab = {
+      ...tabs[activeTab],
+      title: `${tabs[activeTab].title} (kopia)`,
+    };
+
+    const updatedTabs = [...tabs];
+
+    updatedTabs.splice(activeTab + 1, 0, copiedTab);
+
+    setAttributes({ tabs: updatedTabs });
+    setActiveTab(activeTab + 1);
+  };
+
   const updateTab = (index, field, value) => {
     const updatedTabs = tabs.map((tab, i) =>
       i === index ? { ...tab, [field]: value } : tab,
@@ -148,6 +162,10 @@ export default function Edit({ attributes, setAttributes }) {
                 Przesuń w prawo →
               </Button>
             </div>
+
+            <Button variant="secondary" onClick={duplicateTab}>
+              Duplikuj zakładkę
+            </Button>
 
             <Button
               variant="secondary"
