@@ -70,6 +70,10 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateTab = () => {
+    if (tabs.length >= maxTabs) {
+      return;
+    }
+
     const copiedTab = {
       ...tabs[activeTab],
       title: `${tabs[activeTab].title} (kopia)`,
@@ -182,7 +186,11 @@ export default function Edit({ attributes, setAttributes }) {
               </Button>
             </div>
 
-            <Button variant="secondary" onClick={duplicateTab}>
+            <Button
+              variant="secondary"
+              disabled={tabs.length >= maxTabs}
+              onClick={duplicateTab}
+            >
               Duplikuj zakładkę
             </Button>
 
