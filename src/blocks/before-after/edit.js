@@ -36,6 +36,22 @@ export default function Edit({ attributes, setAttributes }) {
         />
       </MediaUploadCheck>
 
+      {beforeImage.url && (
+        <div style={{ marginTop: "20px" }}>
+          <img
+            src={beforeImage.url}
+            alt={beforeImage.alt || "Zdjęcie przed"}
+            style={{
+              display: "block",
+              width: "100%",
+              maxWidth: "500px",
+              height: "auto",
+              borderRadius: "8px",
+            }}
+          />
+        </div>
+      )}
+
       <MediaUploadCheck>
         <MediaUpload
           allowedTypes={["image"]}
@@ -57,11 +73,11 @@ export default function Edit({ attributes, setAttributes }) {
         />
       </MediaUploadCheck>
 
-      {beforeImage.url && (
+      {afterImage.url && (
         <div style={{ marginTop: "20px" }}>
           <img
-            src={beforeImage.url}
-            alt={beforeImage.alt || "Zdjęcie przed"}
+            src={afterImage.url}
+            alt={afterImage.alt || "Zdjęcie po"}
             style={{
               display: "block",
               width: "100%",
