@@ -2019,6 +2019,32 @@ h3.wp-block-heading {
   right: 16px;
 }
 
+/* Before / After — accessibility */
+
+/* Widoczny fokus podczas obsługi klawiaturą */
+.fse-before-after__images:has(.fse-before-after__range:focus-visible)
+  .fse-before-after__handle {
+  outline: 3px solid #2271b1;
+  outline-offset: 4px;
+}
+
+/* Poprawa widoczności uchwytu */
+.fse-before-after__handle {
+  transition:
+    box-shadow 0.2s ease,
+    outline-color 0.2s ease;
+}
+
+/* Użytkownik preferuje ograniczone animacje */
+@media (prefers-reduced-motion: reduce) {
+  .fse-before-after__handle,
+  .fse-before-after__divider,
+  .fse-before-after__before {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ==========================================================================
    Responsive
    ========================================================================== */
