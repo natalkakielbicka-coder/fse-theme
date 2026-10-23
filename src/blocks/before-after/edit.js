@@ -264,6 +264,49 @@ export default function Edit({ attributes, setAttributes }) {
           </div>
         )}
 
+        {/* Etykiety zdjęć w edytorze */}
+        {beforeLabel && (
+          <span
+            className="fse-before-after__label fse-before-after__label--before"
+            style={{
+              position: "absolute",
+              bottom: "16px",
+              left: "16px",
+              zIndex: 2,
+              padding: "6px 12px",
+              background: "rgba(255, 255, 255, 0.92)",
+              color: "#30292D",
+              borderRadius: "999px",
+              fontSize: "12px",
+              fontWeight: 600,
+              pointerEvents: "none",
+            }}
+          >
+            {beforeLabel}
+          </span>
+        )}
+
+        {afterLabel && (
+          <span
+            className="fse-before-after__label fse-before-after__label--after"
+            style={{
+              position: "absolute",
+              bottom: "16px",
+              right: "16px",
+              zIndex: 2,
+              padding: "6px 12px",
+              background: "rgba(255, 255, 255, 0.92)",
+              color: "#30292D",
+              borderRadius: "999px",
+              fontSize: "12px",
+              fontWeight: 600,
+              pointerEvents: "none",
+            }}
+          >
+            {afterLabel}
+          </span>
+        )}
+
         {/* Suwak porównania zdjęć */}
         <div style={{ marginTop: "24px" }}>
           <RangeControl
