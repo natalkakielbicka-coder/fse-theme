@@ -1995,6 +1995,30 @@ h3.wp-block-heading {
   outline-offset: 4px;
 }
 
+/* Before / After — image labels */
+
+.fse-before-after__label {
+  position: absolute;
+  z-index: 2;
+  bottom: 16px;
+  padding: 6px 12px;
+  color: #30292d;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.fse-before-after__label--before {
+  left: 16px;
+}
+
+.fse-before-after__label--after {
+  right: 16px;
+}
+
 /* ==========================================================================
    Responsive
    ========================================================================== */

@@ -93,6 +93,21 @@ export default function save({ attributes }) {
           </span>
         </div>
 
+        {/* Etykiety zdjęć */}
+        <span
+          className="fse-before-after__label fse-before-after__label--before"
+          aria-hidden="true"
+        >
+          PRZED
+        </span>
+
+        <span
+          className="fse-before-after__label fse-before-after__label--after"
+          aria-hidden="true"
+        >
+          PO
+        </span>
+
         {/* Natywny suwak porównania */}
         <input
           type="range"
