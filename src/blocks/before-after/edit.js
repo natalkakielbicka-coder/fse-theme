@@ -265,7 +265,7 @@ export default function Edit({ attributes, setAttributes }) {
         )}
 
         {/* Etykiety zdjęć w edytorze */}
-        {beforeLabel && (
+        {beforeLabel && position > 0 && (
           <span
             className="fse-before-after__label fse-before-after__label--before"
             style={{
@@ -286,7 +286,7 @@ export default function Edit({ attributes, setAttributes }) {
           </span>
         )}
 
-        {afterLabel && (
+        {afterLabel && position < 100 && (
           <span
             className="fse-before-after__label fse-before-after__label--after"
             style={{
