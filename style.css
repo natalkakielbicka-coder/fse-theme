@@ -2121,6 +2121,34 @@ h3.wp-block-heading {
   .admin-bar .site-header {
     top: 46px;
   }
+
+  /* Mniejszy uchwyt */
+  .fse-before-after__handle {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 15px !important;
+  }
+
+  /* Mniejsze etykiety */
+  .fse-before-after__label {
+    bottom: 10px !important;
+    padding: 4px 8px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.03em;
+  }
+
+  .fse-before-after__label--before {
+    left: 10px !important;
+  }
+
+  .fse-before-after__label--after {
+    right: 10px !important;
+  }
+
+  /* Cieńsza linia podziału */
+  .fse-before-after__divider {
+    width: 2px !important;
+  }
 }
 
 /* ==========================================================================
