@@ -22,6 +22,14 @@
     "position": {
       "type": "number",
       "default": 50
+    },
+    "beforeLabel": {
+      "type": "string",
+      "default": "PRZED"
+    },
+    "afterLabel": {
+      "type": "string",
+      "default": "PO"
     }
   },
   "editorScript": "file:./index.js",
