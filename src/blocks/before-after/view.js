@@ -5,6 +5,7 @@ const initBeforeAfter = () => {
       const range = block.querySelector(".fse-before-after__range");
       const before = block.querySelector(".fse-before-after__before");
       const divider = block.querySelector(".fse-before-after__divider");
+      const handle = block.querySelector(".fse-before-after__handle");
 
       const beforeLabel = block.querySelector(
         ".fse-before-after__label--before",
@@ -24,6 +25,26 @@ const initBeforeAfter = () => {
 
         // Aktualizacja linii i uchwytu
         divider.style.left = `${position}%`;
+
+        if (handle) {
+          const handleWidth = handle.getBoundingClientRect().width;
+          const containerWidth = range.getBoundingClientRect().width;
+
+          if (containerWidth > 0) {
+            const halfHandle = handleWidth / 2;
+
+            const handleCenter = Math.max(
+              halfHandle,
+              Math.min(
+                containerWidth - halfHandle,
+                (position / 100) * containerWidth,
+              ),
+            );
+
+            handle.style.left = `${handleCenter - (position / 100) * containerWidth}px`;
+            handle.style.transform = "translateY(-50%)";
+          }
+        }
 
         // Ukrywanie etykiet na krańcach
         if (beforeLabel) {
