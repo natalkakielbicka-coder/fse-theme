@@ -42,7 +42,7 @@ const initBeforeAfter = () => {
             );
 
             handle.style.left = `${handleCenter - (position / 100) * containerWidth}px`;
-            handle.style.transform = "translateY(-50%)";
+            handle.style.transform = "translate(-50%, -50%)";
           }
         }
 
