@@ -244,7 +244,10 @@ export default function Edit({ attributes, setAttributes }) {
                   position: "absolute",
                   top: "50%",
                   left: "50%",
-                  transform: "translate(-50%, -50%)",
+                  transform: `translate(
+                    calc(-50% + ${position === 0 ? "22px" : position === 100 ? "-22px" : "0px"}),
+                    -50%
+                  )`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
