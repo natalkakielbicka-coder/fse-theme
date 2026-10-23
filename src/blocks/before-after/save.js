@@ -1,7 +1,13 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
 export default function save({ attributes }) {
-  const { beforeImage = {}, afterImage = {}, position = 50 } = attributes;
+  const {
+    beforeImage = {},
+    afterImage = {},
+    position = 50,
+    beforeLabel = "PRZED",
+    afterLabel = "PO",
+  } = attributes;
 
   if (!beforeImage.url || !afterImage.url) {
     return null;
@@ -98,14 +104,14 @@ export default function save({ attributes }) {
           className="fse-before-after__label fse-before-after__label--before"
           aria-hidden="true"
         >
-          PRZED
+          {beforeLabel}
         </span>
 
         <span
           className="fse-before-after__label fse-before-after__label--after"
           aria-hidden="true"
         >
-          PO
+          {afterLabel}
         </span>
 
         {/* Natywny suwak porównania */}
