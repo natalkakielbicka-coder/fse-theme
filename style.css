@@ -1987,6 +1987,14 @@ h3.wp-block-heading {
   outline-offset: -3px;
 }
 
+/* Before / After — keyboard focus */
+
+.fse-before-after__images:has(.fse-before-after__range:focus-visible)
+  .fse-before-after__handle {
+  outline: 3px solid var(--wp--preset--color--primary);
+  outline-offset: 4px;
+}
+
 /* ==========================================================================
    Responsive
    ========================================================================== */
