@@ -8,6 +8,12 @@
   "icon": "admin-users",
   "description": "Blok do nauki WordPress REST API.",
   "textdomain": "fse-theme",
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": "Natalia"
+    }
+  },
   "supports": {
     "html": false
   },

@@ -3,10 +3,10 @@ import { TextControl, Button } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+  const { name } = attributes;
   const blockProps = useBlockProps();
 
-  const [name, setName] = useState("Natalia");
   const [greeting, setGreeting] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,7 +33,15 @@ export default function Edit() {
     <div {...blockProps}>
       <h3>API Greeting</h3>
 
-      <TextControl label="Twoje imię" value={name} onChange={setName} />
+      <TextControl
+        label="Twoje imię"
+        value={name}
+        onChange={(value) => {
+          setAttributes({ name: value });
+          setGreeting("");
+          setError("");
+        }}
+      />
 
       <Button variant="primary" onClick={fetchGreeting} disabled={loading}>
         {loading ? "Pobieranie..." : "Pobierz powitanie"}
@@ -41,11 +49,7 @@ export default function Edit() {
 
       {greeting && <p>{greeting}</p>}
 
-      {error && (
-        <p role="alert" style={{ color: "red" }}>
-          {error}
-        </p>
-      )}
+      {error && <p role="alert">{error}</p>}
     </div>
   );
 }
