@@ -30,31 +30,34 @@ export default function Edit({ attributes, setAttributes }) {
 
     let cancelled = false;
 
-    setLoading(true);
-    setError("");
     setGreeting("");
+    setError("");
+    setLoading(true);
 
-    apiFetch({
-      path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
-    })
-      .then((data) => {
-        if (!cancelled) {
-          setGreeting(data.hello);
-        }
+    const timer = setTimeout(() => {
+      apiFetch({
+        path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
       })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err.message || "Błąd pobierania danych.");
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      });
+        .then((data) => {
+          if (!cancelled) {
+            setGreeting(data.hello);
+          }
+        })
+        .catch((err) => {
+          if (!cancelled) {
+            setError(err.message || "Błąd pobierania danych.");
+          }
+        })
+        .finally(() => {
+          if (!cancelled) {
+            setLoading(false);
+          }
+        });
+    }, 400);
 
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
   }, [trimmedName, validationError]);
 
