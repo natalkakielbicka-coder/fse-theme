@@ -211,3 +211,21 @@ function fse_theme_enqueue_tabs_script(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'fse_theme_enqueue_tabs_script' );
+
+add_action( 'rest_api_init', function () {
+
+    register_rest_route( 'fse-theme/v1', '/status', [
+        'methods' => WP_REST_Server::READABLE,
+
+        'callback' => function () {
+            return rest_ensure_response( [
+                'theme'   => 'FSE Theme',
+                'version' => wp_get_theme()->get( 'Version' ),
+                'status'  => 'active',
+            ] );
+        },
+
+        'permission_callback' => '__return_true',
+    ] );
+
+} );
