@@ -7,21 +7,33 @@ import {
   Notice,
   PanelBody,
   RangeControl,
+  SelectControl,
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
-  const { postsToShow } = attributes;
+  const { postsToShow = 5, orderBy = "date", order = "desc" } = attributes;
 
   const { records, isResolving, status } = useEntityRecords(
     "postType",
     "post",
     {
       per_page: postsToShow,
-      orderby: "date",
-      order: "desc",
+      orderby: orderBy,
+      order,
       status: "publish",
     },
   );
+
+  const sortingValue = `${orderBy}-${order}`;
+
+  const handleSortingChange = (value) => {
+    const [newOrderBy, newOrder] = value.split("-");
+
+    setAttributes({
+      orderBy: newOrderBy,
+      order: newOrder,
+    });
+  };
 
   let content;
 
@@ -55,6 +67,19 @@ export default function Edit({ attributes, setAttributes }) {
             onChange={(value) => setAttributes({ postsToShow: value })}
             min={1}
             max={10}
+          />
+
+          <SelectControl
+            label="Sortowanie wpisów"
+            value={sortingValue}
+            options={[
+              { label: "Od najnowszych", value: "date-desc" },
+              { label: "Od najstarszych", value: "date-asc" },
+              { label: "Tytuł A–Z", value: "title-asc" },
+              { label: "Tytuł Z–A", value: "title-desc" },
+            ]}
+            onChange={handleSortingChange}
+            __nextHasNoMarginBottom
           />
         </PanelBody>
       </InspectorControls>
