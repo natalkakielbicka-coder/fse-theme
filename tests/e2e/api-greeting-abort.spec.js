@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const baseURL = "http://nauka.local";
 
-test("API Greeting ignores stale REST responses", async ({ page }) => {
+test("API Greeting cancels stale REST requests", async ({ page }) => {
   const username = process.env.WP_TEST_USER;
   const password = process.env.WP_TEST_PASSWORD;
 
@@ -10,7 +10,47 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
     throw new Error("Set WP_TEST_USER and WP_TEST_PASSWORD");
   }
 
-  // Logowanie.
+  // 1. Obserwujemy anulowanie żądania dla Anny.
+  // Kod zostanie uruchomiony przed skryptami strony.
+  await page.addInitScript(() => {
+    window.__greetingAbortCount = 0;
+
+    const originalFetch = window.fetch;
+
+    window.fetch = function (input, init) {
+      const url =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+            ? input.href
+            : input?.url || "";
+
+      const signal = init?.signal || input?.signal;
+
+      if (
+        url.includes("/fse-theme/v1/status") &&
+        new URL(url, window.location.origin).searchParams.get("name") ===
+          "Anna" &&
+        signal
+      ) {
+        if (signal.aborted) {
+          window.__greetingAbortCount++;
+        } else {
+          signal.addEventListener(
+            "abort",
+            () => {
+              window.__greetingAbortCount++;
+            },
+            { once: true },
+          );
+        }
+      }
+
+      return originalFetch.apply(this, arguments);
+    };
+  });
+
+  // 2. Logowanie do WordPressa.
   await page.goto(`${baseURL}/wp-login.php`, {
     waitUntil: "domcontentloaded",
   });
@@ -21,7 +61,7 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
 
   await expect(page).toHaveURL(/wp-admin/);
 
-  // Otwieramy edytor Gutenberga.
+  // 3. Otwieramy edytor Gutenberga.
   await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`, {
     waitUntil: "domcontentloaded",
   });
@@ -33,7 +73,8 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
     ),
   );
 
-  // Wstawiamy blok do treści strony.
+  // 4. Wstawiamy blok do treści strony.
+  // Nie zapisujemy strony w bazie danych.
   await page.evaluate(() => {
     const block = window.wp.blocks.createBlock("fse-theme/api-greeting", {
       name: "",
@@ -44,6 +85,7 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
     });
   });
 
+  // 5. Znajdujemy pole w edytorze Gutenberga.
   const iframe = page.locator('iframe[name="editor-canvas"]');
 
   const editor = (await iframe.count())
@@ -56,7 +98,7 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
 
   await expect(input).toBeVisible();
 
-  // Kontrolujemy zakończenie opóźnionego żądania.
+  // 6. Symulujemy powolną odpowiedź dla Anny.
   let annaRouteCompleted = false;
 
   await page.route("**/fse-theme/v1/status?*", async (route) => {
@@ -69,7 +111,9 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
         await route.fulfill({
           status: 200,
           contentType: "application/json",
-          body: JSON.stringify({ hello: "Cześć, Anna!" }),
+          body: JSON.stringify({
+            hello: "Cześć, Anna!",
+          }),
         });
       } catch {
         // Żądanie mogło zostać anulowane.
@@ -89,27 +133,31 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
     });
   });
 
-  // Czekamy, aż żądanie Anny zostanie wysłane.
-  const annaRequest = page.waitForRequest(
-    (request) =>
-      request.url().includes("/fse-theme/v1/status") &&
-      new URL(request.url()).searchParams.get("name") === "Anna",
-  );
+  // 7. Czekamy na wysłanie zapytania dla Anny.
+  const annaRequest = page.waitForRequest((request) => {
+    const url = new URL(request.url());
+
+    return (
+      url.pathname.endsWith("/fse-theme/v1/status") &&
+      url.searchParams.get("name") === "Anna"
+    );
+  });
 
   await input.fill("Anna");
   await annaRequest;
 
-  // Zmieniamy imię w trakcie starego zapytania.
+  // 8. Zmieniamy imię, gdy zapytanie dla Anny trwa.
   await input.fill("Maria");
 
+  // 9. Oczekujemy aktualnego powitania.
   await expect(
     editor.getByText("Cześć, Maria!", { exact: true }),
   ).toBeVisible();
 
-  // Czekamy na zakończenie obsługi starego żądania.
+  // 10. Czekamy na zakończenie obsługi starego żądania.
   await expect.poll(() => annaRouteCompleted).toBe(true);
 
-  // Stara odpowiedź nie może zastąpić nowej.
+  // 11. Stara odpowiedź nie może zastąpić nowej.
   await expect(editor.getByText("Cześć, Anna!", { exact: true })).toHaveCount(
     0,
   );
@@ -118,5 +166,23 @@ test("API Greeting ignores stale REST responses", async ({ page }) => {
     editor.getByText("Cześć, Maria!", { exact: true }),
   ).toBeVisible();
 
+  // Nie powinien pojawić się żaden błąd.
   await expect(editor.getByRole("alert")).toHaveCount(0);
+
+  // 12. Sprawdzamy, czy sygnał Anny został anulowany.
+  await expect
+    .poll(async () => {
+      const counts = await Promise.all(
+        page.frames().map(async (frame) => {
+          try {
+            return await frame.evaluate(() => window.__greetingAbortCount || 0);
+          } catch {
+            return 0;
+          }
+        }),
+      );
+
+      return counts.reduce((sum, count) => sum + count, 0);
+    })
+    .toBeGreaterThan(0);
 });
