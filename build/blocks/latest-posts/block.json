@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "fse-theme/latest-posts",
+  "version": "1.0.0",
+  "title": "FSE Latest Posts",
+  "category": "widgets",
+  "icon": "admin-post",
+  "description": "Lista najnowszych wpisów WordPress.",
+  "textdomain": "fse-theme",
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js"
+}
