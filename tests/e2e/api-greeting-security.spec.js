@@ -1,34 +1,41 @@
 import { test, expect } from "@playwright/test";
 
-test("API Greeting safely renders untrusted text", async ({ page }) => {
-  const payload = '<img src=x onerror="window.xssExecuted=true">';
+const payload = '<img src=x onerror="window.xssExecuted=true">';
 
-  await page.goto("http://nauka.local/o-mnie");
+// Podaj tutaj pełny adres opublikowanej strony testowej.
+const testUrl = "http://nauka.local/o-mnie/";
 
-  await page.evaluate(() => {
+test("API Greeting prevents stored XSS", async ({ page }) => {
+  const dialogs = [];
+
+  page.on("dialog", async (dialog) => {
+    dialogs.push(dialog.message());
+    await dialog.dismiss();
+  });
+
+  await page.addInitScript(() => {
     window.xssExecuted = false;
   });
 
-  await page.setContent(`
-    <div class="wp-block-fse-theme-api-greeting">
-      <h3>API Greeting</h3>
-      <p id="greeting"></p>
-    </div>
-  `);
+  await page.goto(testUrl);
 
-  await page.locator("#greeting").evaluate((element, value) => {
-    element.textContent = `Cześć, ${value}!`;
-  }, payload);
+  const block = page.locator(".wp-block-fse-theme-api-greeting").first();
 
-  const greeting = page.locator("#greeting");
+  await expect(block).toBeVisible();
 
+  const greeting = block.locator("p");
+
+  // Niebezpieczny HTML pozostaje zwykłym tekstem.
   await expect(greeting).toContainText(payload);
 
-  await expect(
-    page.locator(".wp-block-fse-theme-api-greeting img"),
-  ).toHaveCount(0);
+  // Nie powstaje rzeczywisty element img.
+  await expect(block.locator("img")).toHaveCount(0);
 
-  const xssExecuted = await page.evaluate(() => window.xssExecuted);
+  // JavaScript nie został uruchomiony.
+  const executed = await page.evaluate(() => window.xssExecuted);
 
-  expect(xssExecuted).toBe(false);
+  expect(executed).toBe(false);
+
+  // Nie pojawiło się nieoczekiwane okno alert.
+  expect(dialogs).toHaveLength(0);
 });
