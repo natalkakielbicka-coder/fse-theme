@@ -11,19 +11,32 @@ export default function Edit({ attributes, setAttributes }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const trimmedName = name.trim();
+
+  const validationError =
+    trimmedName.length < 2
+      ? "Imię musi mieć co najmniej 2 znaki."
+      : trimmedName.length > 30
+        ? "Imię może mieć maksymalnie 30 znaków."
+        : "";
+
   async function fetchGreeting() {
+    if (validationError || loading) {
+      return;
+    }
+
     setLoading(true);
     setError("");
     setGreeting("");
 
     try {
       const data = await apiFetch({
-        path: "/fse-theme/v1/status?name=" + encodeURIComponent(name),
+        path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
       });
 
       setGreeting(data.hello);
     } catch (err) {
-      setError(err.message || "Nie udało się pobrać danych.");
+      setError(err.message || "Błąd pobierania danych.");
     } finally {
       setLoading(false);
     }
@@ -41,9 +54,14 @@ export default function Edit({ attributes, setAttributes }) {
           setGreeting("");
           setError("");
         }}
+        help={validationError || "Wpisz od 2 do 30 znaków."}
       />
 
-      <Button variant="primary" onClick={fetchGreeting} disabled={loading}>
+      <Button
+        variant="primary"
+        onClick={fetchGreeting}
+        disabled={Boolean(validationError) || loading}
+      >
         {loading ? "Pobieranie..." : "Pobierz powitanie"}
       </Button>
 
