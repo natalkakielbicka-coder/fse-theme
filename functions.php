@@ -224,8 +224,9 @@ add_action( 'rest_api_init', function () {
                 'status'  => 'active',
             ] );
         },
-
-        'permission_callback' => '__return_true',
+		'permission_callback' => function () {
+			return current_user_can( 'manage_options' );
+		},
     ] );
 
 } );
