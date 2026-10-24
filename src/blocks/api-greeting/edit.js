@@ -28,6 +28,7 @@ export default function Edit({ attributes, setAttributes }) {
       return;
     }
 
+    const controller = new AbortController();
     let cancelled = false;
 
     setGreeting("");
@@ -37,6 +38,7 @@ export default function Edit({ attributes, setAttributes }) {
     const timer = setTimeout(() => {
       apiFetch({
         path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
+        signal: controller.signal,
       })
         .then((data) => {
           if (!cancelled) {
@@ -44,7 +46,7 @@ export default function Edit({ attributes, setAttributes }) {
           }
         })
         .catch((err) => {
-          if (!cancelled) {
+          if (!cancelled && err.name !== "AbortError") {
             setError(err.message || "Błąd pobierania danych.");
           }
         })
@@ -58,6 +60,7 @@ export default function Edit({ attributes, setAttributes }) {
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      controller.abort();
     };
   }, [trimmedName, validationError]);
 
