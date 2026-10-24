@@ -10,8 +10,10 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     throw new Error("Set WP_TEST_USER and WP_TEST_PASSWORD");
   }
 
-  // Logowanie do WordPressa.
-  await page.goto(`${baseURL}/wp-login.php`);
+  // 1. Logowanie do WordPressa.
+  await page.goto(`${baseURL}/wp-login.php`, {
+    waitUntil: "domcontentloaded",
+  });
 
   await page.locator("#user_login").fill(username);
   await page.locator("#user_pass").fill(password);
@@ -19,8 +21,10 @@ test("API Greeting debounces REST requests", async ({ page }) => {
 
   await expect(page).toHaveURL(/wp-admin/);
 
-  // Otwieramy nową stronę.
-  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`);
+  // 2. Otwieramy edytor.
+  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`, {
+    waitUntil: "domcontentloaded",
+  });
 
   await page.waitForFunction(() =>
     Boolean(
@@ -29,7 +33,7 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     ),
   );
 
-  // Wstawiamy blok do treści strony.
+  // 3. Dodajemy blok z pustym imieniem.
   await page.evaluate(() => {
     const block = window.wp.blocks.createBlock("fse-theme/api-greeting", {
       name: "",
@@ -40,7 +44,7 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     });
   });
 
-  // Gutenberg może renderować zawartość w iframe.
+  // 4. Znajdujemy pole imienia.
   const iframe = page.locator('iframe[name="editor-canvas"]');
 
   const editor = (await iframe.count())
@@ -53,23 +57,26 @@ test("API Greeting debounces REST requests", async ({ page }) => {
 
   await expect(input).toBeVisible();
 
-  // Liczymy wyłącznie żądania naszego endpointu.
+  // 5. Nasłuchujemy zapytań do endpointu.
   const requests = [];
 
   page.on("request", (request) => {
+    const url = new URL(request.url());
+
     if (
       request.method() === "GET" &&
-      request.url().includes("/fse-theme/v1/status")
+      url.pathname === "/wp-json/fse-theme/v1/status"
     ) {
-      requests.push(request.url());
+      requests.push(url.searchParams.get("name"));
     }
   });
 
-  // Wpisujemy imię szybko, znak po znaku.
+  // 6. Wpisujemy imię z krótkimi odstępami.
   await input.pressSequentially("Anna", { delay: 50 });
 
+  // Czekamy na odpowiedź z REST API.
   await expect(editor.getByText("Cześć, Anna!", { exact: true })).toBeVisible();
 
-  expect(requests).toHaveLength(1);
-  expect(new URL(requests[0]).searchParams.get("name")).toBe("Anna");
+  // 7. Sprawdzamy liczbę żądań.
+  expect(requests).toEqual(["Anna"]);
 });
