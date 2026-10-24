@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "fse-theme/api-greeting",
+  "version": "1.0.0",
+  "title": "API Greeting",
+  "category": "widgets",
+  "icon": "admin-users",
+  "description": "Blok do nauki WordPress REST API.",
+  "textdomain": "fse-theme",
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js"
+}
