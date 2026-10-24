@@ -59,71 +59,42 @@ test("API Greeting validates name in Gutenberg", async ({ page }) => {
     name: "Twoje imię",
   });
 
-  const button = editor.getByRole("button", {
-    name: "Pobierz powitanie",
-  });
+  // Test 1: automatyczne pobieranie powitania.
+  await input.fill("Anna");
 
-  console.log(
-    "Zarejestrowany blok:",
-    await page.evaluate(() =>
-      Boolean(window.wp?.blocks?.getBlockType("fse-theme/api-greeting")),
-    ),
-  );
+  await expect(editor.getByText("Cześć, Anna!", { exact: true })).toBeVisible();
 
-  console.log(
-    "Bloki w edytorze:",
-    await page.evaluate(() =>
-      window.wp.data
-        .select("core/block-editor")
-        .getBlocks()
-        .map((block) => block.name),
-    ),
-  );
+  // Test 2: zmiana imienia uruchamia kolejne zapytanie.
+  await input.fill("Marek");
 
-  console.log(
-    "Pola w głównym dokumencie:",
-    await page.getByRole("textbox").allTextContents(),
-  );
+  await expect(
+    editor.getByText("Cześć, Marek!", { exact: true }),
+  ).toBeVisible();
 
-  console.log(
-    "Liczba pól w iframe:",
-    await page
-      .frameLocator('iframe[name="editor-canvas"]')
-      .getByRole("textbox")
-      .count(),
-  );
-
-  console.log(
-    "Tekst API Greeting w iframe:",
-    await page
-      .frameLocator('iframe[name="editor-canvas"]')
-      .getByText("API Greeting")
-      .count(),
-  );
-
-  await expect(input).toBeVisible();
-
-  // Test 1: puste imię.
-  await input.fill("");
-  await expect(button).toBeDisabled();
-
-  // Test 2: jedna litera.
+  // Test 3: jedna litera jest niepoprawna.
   await input.fill("A");
-  await expect(button).toBeDisabled();
 
-  // Test 3: prawidłowe imię.
-  await input.fill("Anna");
-  await expect(button).toBeEnabled();
+  await expect(
+    editor.getByText("Imię musi mieć co najmniej 2 znaki."),
+  ).toBeVisible();
 
-  // Test 4: ponad 30 znaków.
+  await expect(editor.getByText("Cześć, Marek!", { exact: true })).toHaveCount(
+    0,
+  );
+
+  // Test 4: zbyt długie imię.
   await input.fill("A".repeat(31));
-  await expect(button).toBeDisabled();
 
-  // Test 5: REST API.
-  await input.fill("Anna");
-  await button.click();
+  await expect(
+    editor.getByText("Imię może mieć maksymalnie 30 znaków."),
+  ).toBeVisible();
 
-  await expect(editor.getByText("Cześć, Anna!")).toBeVisible();
+  // Test 5: puste pole.
+  await input.fill("");
+
+  await expect(
+    editor.getByText("Imię musi mieć co najmniej 2 znaki."),
+  ).toBeVisible();
 
   // Nie zapisujemy strony testowej.
 });

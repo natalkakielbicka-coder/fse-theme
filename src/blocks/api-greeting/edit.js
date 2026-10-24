@@ -1,6 +1,6 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { TextControl, Button } from "@wordpress/components";
-import { useState } from "@wordpress/element";
+import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 
 export default function Edit({ attributes, setAttributes }) {
@@ -20,27 +20,43 @@ export default function Edit({ attributes, setAttributes }) {
         ? "Imię może mieć maksymalnie 30 znaków."
         : "";
 
-  async function fetchGreeting() {
-    if (validationError || loading) {
+  useEffect(() => {
+    if (validationError) {
+      setGreeting("");
+      setError("");
+      setLoading(false);
       return;
     }
+
+    let cancelled = false;
 
     setLoading(true);
     setError("");
     setGreeting("");
 
-    try {
-      const data = await apiFetch({
-        path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
+    apiFetch({
+      path: "/fse-theme/v1/status?name=" + encodeURIComponent(trimmedName),
+    })
+      .then((data) => {
+        if (!cancelled) {
+          setGreeting(data.hello);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err.message || "Błąd pobierania danych.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
       });
 
-      setGreeting(data.hello);
-    } catch (err) {
-      setError(err.message || "Błąd pobierania danych.");
-    } finally {
-      setLoading(false);
-    }
-  }
+    return () => {
+      cancelled = true;
+    };
+  }, [trimmedName, validationError]);
 
   return (
     <div {...blockProps}>
@@ -57,15 +73,9 @@ export default function Edit({ attributes, setAttributes }) {
         help={validationError || "Wpisz od 2 do 30 znaków."}
       />
 
-      <Button
-        variant="primary"
-        onClick={fetchGreeting}
-        disabled={Boolean(validationError) || loading}
-      >
-        {loading ? "Pobieranie..." : "Pobierz powitanie"}
-      </Button>
+      {loading && <p role="status">Pobieranie...</p>}
 
-      {greeting && <p>{greeting}</p>}
+      {!loading && greeting && <p>{greeting}</p>}
 
       {error && <p role="alert">{error}</p>}
     </div>
