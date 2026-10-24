@@ -217,16 +217,33 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'fse-theme/v1', '/status', [
         'methods' => WP_REST_Server::READABLE,
 
-        'callback' => function () {
+        'callback' => function ( WP_REST_Request $request ) {
+
+            $name = $request->get_param( 'name' );
+
             return rest_ensure_response( [
                 'theme'   => 'FSE Theme',
                 'version' => wp_get_theme()->get( 'Version' ),
                 'status'  => 'active',
+                'hello'   => 'Cześć, ' . $name . '!',
             ] );
         },
-		'permission_callback' => function () {
-			return current_user_can( 'manage_options' );
-		},
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+        'args' => [
+            'name' => [
+                'required'          => true,
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => function ( $value ) {
+                    return is_string( $value )
+                        && mb_strlen( trim( $value ) ) >= 2
+                        && mb_strlen( trim( $value ) ) <= 30;
+                },
+            ],
+        ],
     ] );
 
 } );
+
