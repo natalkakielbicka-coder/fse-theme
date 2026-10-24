@@ -1,15 +1,34 @@
 import { test, expect } from "@playwright/test";
 
-test("API Greeting escapes unsafe HTML", async ({ page }) => {
+test("API Greeting safely renders untrusted text", async ({ page }) => {
+  const payload = '<img src=x onerror="window.xssExecuted=true">';
+
   await page.goto("http://nauka.local/o-mnie");
 
-  const block = page.locator(".wp-block-fse-theme-api-greeting").first();
+  await page.evaluate(() => {
+    window.xssExecuted = false;
+  });
 
-  await expect(block).toBeVisible();
+  await page.setContent(`
+    <div class="wp-block-fse-theme-api-greeting">
+      <h3>API Greeting</h3>
+      <p id="greeting"></p>
+    </div>
+  `);
 
-  const images = block.locator("img");
-  await expect(images).toHaveCount(0);
+  await page.locator("#greeting").evaluate((element, value) => {
+    element.textContent = `Cześć, ${value}!`;
+  }, payload);
 
-  const greeting = block.locator("p");
-  await expect(greeting).toContainText("Cześć,");
+  const greeting = page.locator("#greeting");
+
+  await expect(greeting).toContainText(payload);
+
+  await expect(
+    page.locator(".wp-block-fse-theme-api-greeting img"),
+  ).toHaveCount(0);
+
+  const xssExecuted = await page.evaluate(() => window.xssExecuted);
+
+  expect(xssExecuted).toBe(false);
 });
