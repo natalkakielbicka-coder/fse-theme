@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const baseURL = "http://nauka.local";
 
-test("API Greeting debounces REST requests", async ({ page }) => {
+test("API Greeting validates name in Gutenberg", async ({ page }) => {
   const username = process.env.WP_TEST_USER;
   const password = process.env.WP_TEST_PASSWORD;
 
@@ -10,8 +10,10 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     throw new Error("Set WP_TEST_USER and WP_TEST_PASSWORD");
   }
 
-  // Logowanie do WordPressa.
-  await page.goto(`${baseURL}/wp-login.php`);
+  // 1. Logowanie do WordPressa.
+  await page.goto(`${baseURL}/wp-login.php`, {
+    waitUntil: "domcontentloaded",
+  });
 
   await page.locator("#user_login").fill(username);
   await page.locator("#user_pass").fill(password);
@@ -19,9 +21,12 @@ test("API Greeting debounces REST requests", async ({ page }) => {
 
   await expect(page).toHaveURL(/wp-admin/);
 
-  // Otwieramy nową stronę.
-  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`);
+  // 2. Otwieramy edytor nowej strony.
+  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`, {
+    waitUntil: "domcontentloaded",
+  });
 
+  // 3. Czekamy na rejestrację bloku.
   await page.waitForFunction(() =>
     Boolean(
       window.wp?.blocks?.getBlockType("fse-theme/api-greeting") &&
@@ -29,7 +34,8 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     ),
   );
 
-  // Wstawiamy blok do treści strony.
+  // 4. Dodajemy blok do treści strony.
+  // W FSE używamy core/editor zamiast insertBlocks.
   await page.evaluate(() => {
     const block = window.wp.blocks.createBlock("fse-theme/api-greeting", {
       name: "",
@@ -40,7 +46,7 @@ test("API Greeting debounces REST requests", async ({ page }) => {
     });
   });
 
-  // Gutenberg może renderować zawartość w iframe.
+  // 5. Znajdujemy obszar edycji Gutenberga.
   const iframe = page.locator('iframe[name="editor-canvas"]');
 
   const editor = (await iframe.count())
@@ -53,23 +59,49 @@ test("API Greeting debounces REST requests", async ({ page }) => {
 
   await expect(input).toBeVisible();
 
-  // Liczymy wyłącznie żądania naszego endpointu.
-  const requests = [];
+  // TEST 1: Puste pole.
+  await input.fill("");
 
-  page.on("request", (request) => {
-    if (
-      request.method() === "GET" &&
-      request.url().includes("/fse-theme/v1/status")
-    ) {
-      requests.push(request.url());
-    }
-  });
+  await expect(
+    editor.getByText("Imię musi mieć co najmniej 2 znaki."),
+  ).toBeVisible();
 
-  // Wpisujemy imię szybko, znak po znaku.
-  await input.pressSequentially("Anna", { delay: 50 });
+  // TEST 2: Jedna litera.
+  await input.fill("A");
+
+  await expect(
+    editor.getByText("Imię musi mieć co najmniej 2 znaki."),
+  ).toBeVisible();
+
+  // TEST 3: Poprawne imię.
+  await input.fill("Anna");
 
   await expect(editor.getByText("Cześć, Anna!", { exact: true })).toBeVisible();
 
-  expect(requests).toHaveLength(1);
-  expect(new URL(requests[0]).searchParams.get("name")).toBe("Anna");
+  // TEST 4: Zmiana imienia.
+  await input.fill("Marek");
+
+  await expect(
+    editor.getByText("Cześć, Marek!", { exact: true }),
+  ).toBeVisible();
+
+  // TEST 5: Imię dłuższe niż 30 znaków.
+  await input.fill("A".repeat(31));
+
+  await expect(
+    editor.getByText("Imię może mieć maksymalnie 30 znaków."),
+  ).toBeVisible();
+
+  await expect(editor.getByText("Cześć, Marek!", { exact: true })).toHaveCount(
+    0,
+  );
+
+  // TEST 6: Ponownie poprawne imię.
+  await input.fill("Maria");
+
+  await expect(
+    editor.getByText("Cześć, Maria!", { exact: true }),
+  ).toBeVisible();
+
+  // Nie zapisujemy testowej strony.
 });

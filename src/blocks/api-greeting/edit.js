@@ -1,6 +1,6 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { TextControl, Button } from "@wordpress/components";
-import { useState, useEffect } from "@wordpress/element";
+import { useState, useEffect, useCallback } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 
 export default function Edit({ attributes, setAttributes }) {
@@ -10,6 +10,15 @@ export default function Edit({ attributes, setAttributes }) {
   const [greeting, setGreeting] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const handleNameChange = useCallback(
+    (value) => {
+      setAttributes({ name: value });
+      setGreeting("");
+      setError("");
+    },
+    [setAttributes],
+  );
 
   const trimmedName = name.trim();
 
@@ -71,11 +80,7 @@ export default function Edit({ attributes, setAttributes }) {
       <TextControl
         label="Twoje imię"
         value={name}
-        onChange={(value) => {
-          setAttributes({ name: value });
-          setGreeting("");
-          setError("");
-        }}
+        onChange={handleNameChange}
         help={validationError || "Wpisz od 2 do 30 znaków."}
       />
 
