@@ -11,5 +11,11 @@
   "supports": {
     "html": false
   },
+  "attributes": {
+    "postsToShow": {
+      "type": "number",
+      "default": 5
+    }
+  },
   "editorScript": "file:./index.js"
 }

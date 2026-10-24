@@ -1,13 +1,22 @@
-import { useBlockProps } from "@wordpress/block-editor";
-import { useEntityRecords } from "@wordpress/core-data";
-import { Spinner, Notice } from "@wordpress/components";
+import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 
-export default function Edit() {
+import { useEntityRecords } from "@wordpress/core-data";
+
+import {
+  Spinner,
+  Notice,
+  PanelBody,
+  RangeControl,
+} from "@wordpress/components";
+
+export default function Edit({ attributes, setAttributes }) {
+  const { postsToShow } = attributes;
+
   const { records, isResolving, status } = useEntityRecords(
     "postType",
     "post",
     {
-      per_page: 5,
+      per_page: postsToShow,
       orderby: "date",
       order: "desc",
       status: "publish",
@@ -37,9 +46,23 @@ export default function Edit() {
   }
 
   return (
-    <div {...useBlockProps()}>
-      <h3>Najnowsze wpisy</h3>
-      {content}
-    </div>
+    <>
+      <InspectorControls>
+        <PanelBody title="Ustawienia listy wpisów" initialOpen={true}>
+          <RangeControl
+            label="Liczba wpisów"
+            value={postsToShow}
+            onChange={(value) => setAttributes({ postsToShow: value })}
+            min={1}
+            max={10}
+          />
+        </PanelBody>
+      </InspectorControls>
+
+      <div {...useBlockProps()}>
+        <h3>Najnowsze wpisy</h3>
+        {content}
+      </div>
+    </>
   );
 }
