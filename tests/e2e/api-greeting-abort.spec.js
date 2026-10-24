@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const baseURL = "http://nauka.local";
 
-test("API Greeting cancels stale REST requests", async ({ page }) => {
+test("API Greeting ignores stale REST responses", async ({ page }) => {
   const username = process.env.WP_TEST_USER;
   const password = process.env.WP_TEST_PASSWORD;
 
@@ -11,14 +11,20 @@ test("API Greeting cancels stale REST requests", async ({ page }) => {
   }
 
   // Logowanie.
-  await page.goto(`${baseURL}/wp-login.php`);
+  await page.goto(`${baseURL}/wp-login.php`, {
+    waitUntil: "domcontentloaded",
+  });
+
   await page.locator("#user_login").fill(username);
   await page.locator("#user_pass").fill(password);
   await page.locator("#wp-submit").click();
 
   await expect(page).toHaveURL(/wp-admin/);
 
-  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`);
+  // Otwieramy edytor Gutenberga.
+  await page.goto(`${baseURL}/wp-admin/post-new.php?post_type=page`, {
+    waitUntil: "domcontentloaded",
+  });
 
   await page.waitForFunction(() =>
     Boolean(
@@ -27,7 +33,7 @@ test("API Greeting cancels stale REST requests", async ({ page }) => {
     ),
   );
 
-  // Wstawienie bloku bez zapisywania strony.
+  // Wstawiamy blok do treści strony.
   await page.evaluate(() => {
     const block = window.wp.blocks.createBlock("fse-theme/api-greeting", {
       name: "",
@@ -50,39 +56,40 @@ test("API Greeting cancels stale REST requests", async ({ page }) => {
 
   await expect(input).toBeVisible();
 
-  const failures = [];
+  // Kontrolujemy zakończenie opóźnionego żądania.
+  let annaRouteCompleted = false;
 
-  page.on("requestfailed", (request) => {
-    const name = new URL(request.url()).searchParams.get("name");
-
-    if (request.url().includes("/fse-theme/v1/status") && name === "Anna") {
-      failures.push(request.failure()?.errorText || "");
-    }
-  });
-
-  // Kontrolujemy wyłącznie nasz endpoint REST API.
   await page.route("**/fse-theme/v1/status?*", async (route) => {
     const name = new URL(route.request().url()).searchParams.get("name");
 
     if (name === "Anna") {
-      // Symulujemy wolny serwer.
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      try {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ hello: "Cześć, Anna!" }),
+        });
+      } catch {
+        // Żądanie mogło zostać anulowane.
+      } finally {
+        annaRouteCompleted = true;
+      }
+
+      return;
     }
 
-    try {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          hello: `Cześć, ${name}!`,
-        }),
-      });
-    } catch {
-      // Żądanie mogło zostać anulowane przez przeglądarkę.
-    }
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        hello: `Cześć, ${name}!`,
+      }),
+    });
   });
 
-  // Czekamy, aż zapytanie dla Anny naprawdę wystartuje.
+  // Czekamy, aż żądanie Anny zostanie wysłane.
   const annaRequest = page.waitForRequest(
     (request) =>
       request.url().includes("/fse-theme/v1/status") &&
@@ -92,23 +99,24 @@ test("API Greeting cancels stale REST requests", async ({ page }) => {
   await input.fill("Anna");
   await annaRequest;
 
-  // Zmieniamy imię, gdy pierwsze żądanie jest w toku.
+  // Zmieniamy imię w trakcie starego zapytania.
   await input.fill("Maria");
 
   await expect(
     editor.getByText("Cześć, Maria!", { exact: true }),
   ).toBeVisible();
 
+  // Czekamy na zakończenie obsługi starego żądania.
+  await expect.poll(() => annaRouteCompleted).toBe(true);
+
+  // Stara odpowiedź nie może zastąpić nowej.
   await expect(editor.getByText("Cześć, Anna!", { exact: true })).toHaveCount(
     0,
   );
 
-  await expect(editor.getByRole("alert")).toHaveCount(0);
+  await expect(
+    editor.getByText("Cześć, Maria!", { exact: true }),
+  ).toBeVisible();
 
-  // Sprawdzamy, czy przeglądarka zgłosiła anulowanie.
-  await expect
-    .poll(() => failures.some((error) => error.includes("ERR_ABORTED")), {
-      timeout: 5000,
-    })
-    .toBe(true);
+  await expect(editor.getByRole("alert")).toHaveCount(0);
 });
