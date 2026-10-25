@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Frontend: FSE Latest Posts.
@@ -11,6 +10,10 @@ $posts_to_show = isset( $attributes['postsToShow'] )
 $order_by = $attributes['orderBy'] ?? 'date';
 $order    = $attributes['order'] ?? 'desc';
 $category = absint( $attributes['categoryId'] ?? 0 );
+
+$show_image   = $attributes['showImage'] ?? true;
+$show_date    = $attributes['showDate'] ?? true;
+$show_excerpt = $attributes['showExcerpt'] ?? true;
 
 // Dozwolone wartości sortowania.
 if ( ! in_array( $order_by, array( 'date', 'title' ), true ) ) {
@@ -46,7 +49,7 @@ $query = new WP_Query( $args );
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                 <article class="fse-latest-posts__card">
 
-                    <?php if ( has_post_thumbnail() ) : ?>
+                    <?php if ( $show_image && has_post_thumbnail() ) : ?>
                         <a
                             class="fse-latest-posts__image"
                             href="<?php echo esc_url( get_permalink() ); ?>"
@@ -70,12 +73,14 @@ $query = new WP_Query( $args );
                                 </span>
                             <?php endif; ?>
 
-                            <time
-                                class="fse-latest-posts__date"
-                                datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
-                            >
-                                <?php echo esc_html( get_the_date() ); ?>
-                            </time>
+                            <?php if ( $show_date ) : ?>
+                                <time
+                                    class="fse-latest-posts__date"
+                                    datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
+                                >
+                                    <?php echo esc_html( get_the_date() ); ?>
+                                </time>
+                            <?php endif; ?>
                         </div>
 
                         <h3 class="fse-latest-posts__title">
@@ -84,17 +89,19 @@ $query = new WP_Query( $args );
                             </a>
                         </h3>
 
-                        <div class="fse-latest-posts__excerpt">
-                            <?php
-                            echo esc_html(
-                                wp_trim_words(
-                                    get_the_excerpt(),
-                                    20,
-                                    '…'
-                                )
-                            );
-                            ?>
-                        </div>
+                        <?php if ( $show_excerpt ) : ?>
+                            <div class="fse-latest-posts__excerpt">
+                                <?php
+                                echo esc_html(
+                                    wp_trim_words(
+                                        get_the_excerpt(),
+                                        20,
+                                        '…'
+                                    )
+                                );
+                                ?>
+                            </div>
+                        <?php endif; ?>
 
                         <a
                             class="fse-latest-posts__more"

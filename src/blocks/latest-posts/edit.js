@@ -10,6 +10,7 @@ import {
   PanelBody,
   RangeControl,
   SelectControl,
+  ToggleControl,
 } from "@wordpress/components";
 
 function PostThumbnail({ mediaId }) {
@@ -53,6 +54,9 @@ export default function Edit({ attributes, setAttributes }) {
     orderBy = "date",
     order = "desc",
     categoryId = 0,
+    showImage = true,
+    showDate = true,
+    showExcerpt = true,
   } = attributes;
 
   // Pobieranie kategorii WordPressa
@@ -122,7 +126,7 @@ export default function Edit({ attributes, setAttributes }) {
           );
           return (
             <article key={post.id} className="fse-latest-posts__card">
-              <PostThumbnail mediaId={post.featured_media} />
+              {showImage && <PostThumbnail mediaId={post.featured_media} />}
 
               <div className="fse-latest-posts__content">
                 <div className="fse-latest-posts__meta">
@@ -131,9 +135,14 @@ export default function Edit({ attributes, setAttributes }) {
                       {firstCategory.name}
                     </span>
                   )}
-                  <time className="fse-latest-posts__date" dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString("pl-PL")}
-                  </time>
+                  {showDate && (
+                    <time
+                      className="fse-latest-posts__date"
+                      dateTime={post.date}
+                    >
+                      {new Date(post.date).toLocaleDateString("pl-PL")}
+                    </time>
+                  )}
                 </div>
 
                 <h3 className="fse-latest-posts__title">
@@ -144,13 +153,15 @@ export default function Edit({ attributes, setAttributes }) {
                   />
                 </h3>
 
-                <div className="fse-latest-posts__excerpt">
-                  {post.excerpt?.rendered ? (
-                    <RawHTML>{post.excerpt.rendered}</RawHTML>
-                  ) : (
-                    <p>Brak opisu wpisu.</p>
-                  )}
-                </div>
+                {showExcerpt && (
+                  <div className="fse-latest-posts__excerpt">
+                    {post.excerpt?.rendered ? (
+                      <RawHTML>{post.excerpt.rendered}</RawHTML>
+                    ) : (
+                      <p>Brak opisu wpisu.</p>
+                    )}
+                  </div>
+                )}
 
                 <span className="fse-latest-posts__more">Czytaj więcej →</span>
               </div>
@@ -209,6 +220,29 @@ export default function Edit({ attributes, setAttributes }) {
               __nextHasNoMarginBottom
             />
           )}
+
+          <PanelBody title="Wygląd kart" initialOpen={true}>
+            <ToggleControl
+              label="Pokaż miniaturę"
+              checked={showImage}
+              onChange={(value) => setAttributes({ showImage: value })}
+              __nextHasNoMarginBottom
+            />
+
+            <ToggleControl
+              label="Pokaż datę"
+              checked={showDate}
+              onChange={(value) => setAttributes({ showDate: value })}
+              __nextHasNoMarginBottom
+            />
+
+            <ToggleControl
+              label="Pokaż opis"
+              checked={showExcerpt}
+              onChange={(value) => setAttributes({ showExcerpt: value })}
+              __nextHasNoMarginBottom
+            />
+          </PanelBody>
         </PanelBody>
       </InspectorControls>
 

@@ -27,6 +27,18 @@
     "categoryId": {
       "type": "number",
       "default": 0
+    },
+    "showImage": {
+      "type": "boolean",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "default": true
+    },
+    "showExcerpt": {
+      "type": "boolean",
+      "default": true
     }
   },
   "editorScript": "file:./index.js",
