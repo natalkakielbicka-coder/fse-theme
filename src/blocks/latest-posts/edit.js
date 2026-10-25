@@ -117,14 +117,24 @@ export default function Edit({ attributes, setAttributes }) {
     content = (
       <div className="fse-latest-posts__grid">
         {posts.map((post) => {
+          const firstCategory = categories?.find((category) =>
+            post.categories?.includes(category.id),
+          );
           return (
             <article key={post.id} className="fse-latest-posts__card">
               <PostThumbnail mediaId={post.featured_media} />
 
               <div className="fse-latest-posts__content">
-                <time className="fse-latest-posts__date" dateTime={post.date}>
-                  {new Date(post.date).toLocaleDateString("pl-PL")}
-                </time>
+                <div className="fse-latest-posts__meta">
+                  {firstCategory && (
+                    <span className="fse-latest-posts__category">
+                      {firstCategory.name}
+                    </span>
+                  )}
+                  <time className="fse-latest-posts__date" dateTime={post.date}>
+                    {new Date(post.date).toLocaleDateString("pl-PL")}
+                  </time>
+                </div>
 
                 <h3 className="fse-latest-posts__title">
                   <span

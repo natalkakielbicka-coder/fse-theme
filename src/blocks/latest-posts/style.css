@@ -147,6 +147,31 @@
   margin-top: auto;
 }
 
+/* Etykieta kategorii */
+
+.fse-latest-posts__category {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: #f0eee8;
+  color: #504e45;
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.fse-latest-posts__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: 100%;
+  justify-content: space-between;
+}
+
 /* Tablet */
 
 @media (max-width: 1023px) {

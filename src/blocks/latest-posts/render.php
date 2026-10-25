@@ -58,13 +58,25 @@ $query = new WP_Query( $args );
                     <?php endif; ?>
 
                     <div class="fse-latest-posts__content">
+                        <div class="fse-latest-posts__meta">
+                            <?php
+                            $categories = get_the_category();
 
-                        <time
-                            class="fse-latest-posts__date"
-                            datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
-                        >
-                            <?php echo esc_html( get_the_date() ); ?>
-                        </time>
+                            if ( ! empty( $categories ) ) :
+                                $first_category = $categories[0];
+                                ?>
+                                <span class="fse-latest-posts__category">
+                                    <?php echo esc_html( $first_category->name ); ?>
+                                </span>
+                            <?php endif; ?>
+
+                            <time
+                                class="fse-latest-posts__date"
+                                datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
+                            >
+                                <?php echo esc_html( get_the_date() ); ?>
+                            </time>
+                        </div>
 
                         <h3 class="fse-latest-posts__title">
                             <a href="<?php echo esc_url( get_permalink() ); ?>">
