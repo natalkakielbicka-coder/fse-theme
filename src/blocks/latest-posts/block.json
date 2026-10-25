@@ -43,6 +43,10 @@
     "columns": {
       "type": "number",
       "default": 3
+    },
+    "cardLayout": {
+      "type": "string",
+      "default": "vertical"
     }
   },
   "editorScript": "file:./index.js",

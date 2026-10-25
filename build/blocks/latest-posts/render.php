@@ -18,6 +18,12 @@ $show_excerpt = $attributes['showExcerpt'] ?? true;
 $columns = absint( $attributes['columns'] ?? 3 );
 $columns = max( 1, min( 4, $columns ) );
 
+$card_layout = $attributes['cardLayout'] ?? 'vertical';
+
+if ( ! in_array( $card_layout, array( 'vertical', 'horizontal' ), true ) ) {
+    $card_layout = 'vertical';
+}
+
 // Dozwolone wartości sortowania.
 if ( ! in_array( $order_by, array( 'date', 'title' ), true ) ) {
     $order_by = 'date';
@@ -53,7 +59,7 @@ $query = new WP_Query( $args );
             style="<?php echo esc_attr( '--fse-columns: ' . $columns . ';' ); ?>"
         >
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-                <article class="fse-latest-posts__card">
+                <article class="<?php echo esc_attr( 'fse-latest-posts__card fse-latest-posts__card--' . $card_layout ); ?>">
 
                     <?php if ( $show_image && has_post_thumbnail() ) : ?>
                         <a

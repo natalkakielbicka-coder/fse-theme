@@ -11,6 +11,7 @@ import {
   RangeControl,
   SelectControl,
   ToggleControl,
+  RadioControl,
 } from "@wordpress/components";
 
 function PostThumbnail({ mediaId }) {
@@ -58,6 +59,7 @@ export default function Edit({ attributes, setAttributes }) {
     showDate = true,
     showExcerpt = true,
     columns = 3,
+    cardLayout = "vertical",
   } = attributes;
 
   // Pobieranie kategorii WordPressa
@@ -129,7 +131,10 @@ export default function Edit({ attributes, setAttributes }) {
             post.categories?.includes(category.id),
           );
           return (
-            <article key={post.id} className="fse-latest-posts__card">
+            <article
+              key={post.id}
+              className={`fse-latest-posts__card fse-latest-posts__card--${cardLayout}`}
+            >
               {showImage && <PostThumbnail mediaId={post.featured_media} />}
 
               <div className="fse-latest-posts__content">
@@ -253,6 +258,22 @@ export default function Edit({ attributes, setAttributes }) {
               onChange={(value) => setAttributes({ columns: value })}
               min={1}
               max={4}
+            />
+
+            <RadioControl
+              label="Układ kart"
+              selected={cardLayout}
+              options={[
+                {
+                  label: "Pionowy – zdjęcie nad tekstem",
+                  value: "vertical",
+                },
+                {
+                  label: "Poziomy – zdjęcie obok tekstu",
+                  value: "horizontal",
+                },
+              ]}
+              onChange={(value) => setAttributes({ cardLayout: value })}
             />
           </PanelBody>
         </PanelBody>
