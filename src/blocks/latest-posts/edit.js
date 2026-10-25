@@ -11,21 +11,50 @@ import {
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
-  const { postsToShow = 5, orderBy = "date", order = "desc" } = attributes;
+  const {
+    postsToShow = 5,
+    orderBy = "date",
+    order = "desc",
+    categoryId = 0,
+  } = attributes;
 
-  const { records, isResolving, status } = useEntityRecords(
-    "postType",
-    "post",
-    {
-      per_page: postsToShow,
-      orderby: orderBy,
-      order,
-      status: "publish",
-    },
-  );
+  // Pobieranie kategorii WordPressa
+  const {
+    records: categories,
+    isResolving: categoriesLoading,
+    status: categoriesStatus,
+  } = useEntityRecords("taxonomy", "category", {
+    per_page: 100,
+    orderby: "name",
+    order: "asc",
+  });
 
-  const sortingValue = `${orderBy}-${order}`;
+  // Parametry zapytania o wpisy
+  const postsQuery = {
+    per_page: postsToShow,
+    orderby: orderBy,
+    order,
+    status: "publish",
+    ...(categoryId > 0 ? { categories: categoryId } : {}),
+  };
 
+  // Pobieranie wpisów
+  const {
+    records: posts,
+    isResolving: postsLoading,
+    status: postsStatus,
+  } = useEntityRecords("postType", "post", postsQuery);
+
+  // Opcje wyboru kategorii
+  const categoryOptions = [
+    { label: "Wszystkie kategorie", value: "0" },
+    ...(categories || []).map((category) => ({
+      label: category.name,
+      value: String(category.id),
+    })),
+  ];
+
+  // Zmiana sortowania
   const handleSortingChange = (value) => {
     const [newOrderBy, newOrder] = value.split("-");
 
@@ -37,20 +66,20 @@ export default function Edit({ attributes, setAttributes }) {
 
   let content;
 
-  if (status === "ERROR") {
+  if (postsStatus === "ERROR") {
     content = (
       <Notice status="error" isDismissible={false}>
         Nie udało się pobrać wpisów.
       </Notice>
     );
-  } else if (isResolving || status === "IDLE") {
+  } else if (postsLoading || postsStatus === "IDLE") {
     content = <Spinner />;
-  } else if (!records?.length) {
-    content = <p>Brak opublikowanych wpisów.</p>;
+  } else if (!posts?.length) {
+    content = <p>Brak wpisów w wybranej kategorii.</p>;
   } else {
     content = (
       <ul>
-        {records.map((post) => (
+        {posts.map((post) => (
           <li key={post.id}>{post.title?.rendered || "(Bez tytułu)"}</li>
         ))}
       </ul>
@@ -71,7 +100,7 @@ export default function Edit({ attributes, setAttributes }) {
 
           <SelectControl
             label="Sortowanie wpisów"
-            value={sortingValue}
+            value={`${orderBy}-${order}`}
             options={[
               { label: "Od najnowszych", value: "date-desc" },
               { label: "Od najstarszych", value: "date-asc" },
@@ -81,6 +110,30 @@ export default function Edit({ attributes, setAttributes }) {
             onChange={handleSortingChange}
             __nextHasNoMarginBottom
           />
+
+          {categoriesStatus === "ERROR" ? (
+            <Notice status="error" isDismissible={false}>
+              Nie udało się pobrać kategorii.
+            </Notice>
+          ) : (
+            <SelectControl
+              label="Kategoria wpisów"
+              value={String(categoryId)}
+              options={categoryOptions}
+              onChange={(value) =>
+                setAttributes({
+                  categoryId: Number(value),
+                })
+              }
+              disabled={categoriesLoading || categoriesStatus === "IDLE"}
+              help={
+                categoriesLoading
+                  ? "Ładowanie kategorii..."
+                  : "Wybierz kategorię do filtrowania wpisów."
+              }
+              __nextHasNoMarginBottom
+            />
+          )}
         </PanelBody>
       </InspectorControls>
 

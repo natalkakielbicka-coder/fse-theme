@@ -23,6 +23,10 @@
     "order": {
       "type": "string",
       "default": "desc"
+    },
+    "categoryId": {
+      "type": "number",
+      "default": 0
     }
   },
   "editorScript": "file:./index.js"
