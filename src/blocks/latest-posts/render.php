@@ -15,6 +15,9 @@ $show_image   = $attributes['showImage'] ?? true;
 $show_date    = $attributes['showDate'] ?? true;
 $show_excerpt = $attributes['showExcerpt'] ?? true;
 
+$columns = absint( $attributes['columns'] ?? 3 );
+$columns = max( 1, min( 4, $columns ) );
+
 // Dozwolone wartości sortowania.
 if ( ! in_array( $order_by, array( 'date', 'title' ), true ) ) {
     $order_by = 'date';
@@ -45,7 +48,10 @@ $query = new WP_Query( $args );
     <h3><?php esc_html_e( 'Najnowsze wpisy', 'fse-theme' ); ?></h3>
 
     <?php if ( $query->have_posts() ) : ?>
-        <div class="fse-latest-posts__grid">
+        <div
+            class="fse-latest-posts__grid"
+            style="<?php echo esc_attr( '--fse-columns: ' . $columns . ';' ); ?>"
+        >
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                 <article class="fse-latest-posts__card">
 

@@ -39,6 +39,10 @@
     "showExcerpt": {
       "type": "boolean",
       "default": true
+    },
+    "columns": {
+      "type": "number",
+      "default": 3
     }
   },
   "editorScript": "file:./index.js",

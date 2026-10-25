@@ -57,6 +57,7 @@ export default function Edit({ attributes, setAttributes }) {
     showImage = true,
     showDate = true,
     showExcerpt = true,
+    columns = 3,
   } = attributes;
 
   // Pobieranie kategorii WordPressa
@@ -119,7 +120,10 @@ export default function Edit({ attributes, setAttributes }) {
     content = <p>Brak wpisów w wybranej kategorii.</p>;
   } else {
     content = (
-      <div className="fse-latest-posts__grid">
+      <div
+        className="fse-latest-posts__grid"
+        style={{ "--fse-columns": columns }}
+      >
         {posts.map((post) => {
           const firstCategory = categories?.find((category) =>
             post.categories?.includes(category.id),
@@ -241,6 +245,14 @@ export default function Edit({ attributes, setAttributes }) {
               checked={showExcerpt}
               onChange={(value) => setAttributes({ showExcerpt: value })}
               __nextHasNoMarginBottom
+            />
+
+            <RangeControl
+              label="Liczba kolumn"
+              value={columns}
+              onChange={(value) => setAttributes({ columns: value })}
+              min={1}
+              max={4}
             />
           </PanelBody>
         </PanelBody>
