@@ -72,6 +72,18 @@ $query = new WP_Query( $args );
                             </a>
                         </h3>
 
+                        <div class="fse-latest-posts__excerpt">
+                            <?php
+                            echo esc_html(
+                                wp_trim_words(
+                                    get_the_excerpt(),
+                                    20,
+                                    '…'
+                                )
+                            );
+                            ?>
+                        </div>
+
                         <a
                             class="fse-latest-posts__more"
                             href="<?php echo esc_url( get_permalink() ); ?>"

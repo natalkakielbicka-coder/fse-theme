@@ -116,6 +116,37 @@
   }
 }
 
+/* Równa wysokość kart */
+
+.fse-latest-posts__grid {
+  align-items: stretch;
+}
+
+.fse-latest-posts__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.fse-latest-posts__content {
+  flex: 1;
+}
+
+.fse-latest-posts__excerpt {
+  color: var(--fse-card-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.fse-latest-posts__excerpt p {
+  margin: 0;
+}
+
+.fse-latest-posts__more {
+  margin-top: auto;
+}
+
 /* Tablet */
 
 @media (max-width: 1023px) {

@@ -2,6 +2,8 @@ import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 
 import { useEntityRecords, useEntityRecord } from "@wordpress/core-data";
 
+import { RawHTML } from "@wordpress/element";
+
 import {
   Spinner,
   Notice,
@@ -131,6 +133,14 @@ export default function Edit({ attributes, setAttributes }) {
                     }}
                   />
                 </h3>
+
+                <div className="fse-latest-posts__excerpt">
+                  {post.excerpt?.rendered ? (
+                    <RawHTML>{post.excerpt.rendered}</RawHTML>
+                  ) : (
+                    <p>Brak opisu wpisu.</p>
+                  )}
+                </div>
 
                 <span className="fse-latest-posts__more">Czytaj więcej →</span>
               </div>
