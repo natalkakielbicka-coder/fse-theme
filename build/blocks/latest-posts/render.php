@@ -42,15 +42,47 @@ $query = new WP_Query( $args );
     <h3><?php esc_html_e( 'Najnowsze wpisy', 'fse-theme' ); ?></h3>
 
     <?php if ( $query->have_posts() ) : ?>
-        <ul>
+        <div class="fse-latest-posts__grid">
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-                <li>
-                    <a href="<?php echo esc_url( get_permalink() ); ?>">
-                        <?php echo esc_html( get_the_title() ); ?>
-                    </a>
-                </li>
+                <article class="fse-latest-posts__card">
+
+                    <?php if ( has_post_thumbnail() ) : ?>
+                        <a
+                            class="fse-latest-posts__image"
+                            href="<?php echo esc_url( get_permalink() ); ?>"
+                            tabindex="-1"
+                            aria-hidden="true"
+                        >
+                            <?php the_post_thumbnail( 'medium_large' ); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <div class="fse-latest-posts__content">
+
+                        <time
+                            class="fse-latest-posts__date"
+                            datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
+                        >
+                            <?php echo esc_html( get_the_date() ); ?>
+                        </time>
+
+                        <h3 class="fse-latest-posts__title">
+                            <a href="<?php echo esc_url( get_permalink() ); ?>">
+                                <?php echo esc_html( get_the_title() ); ?>
+                            </a>
+                        </h3>
+
+                        <a
+                            class="fse-latest-posts__more"
+                            href="<?php echo esc_url( get_permalink() ); ?>"
+                        >
+                            Czytaj więcej →
+                        </a>
+
+                    </div>
+                </article>
             <?php endwhile; ?>
-        </ul>
+        </div>
 
         <?php wp_reset_postdata(); ?>
     <?php else : ?>
