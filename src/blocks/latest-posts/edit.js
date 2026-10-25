@@ -1,6 +1,6 @@
 import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 
-import { useEntityRecords } from "@wordpress/core-data";
+import { useEntityRecords, useEntityRecord } from "@wordpress/core-data";
 
 import {
   Spinner,
@@ -9,6 +9,41 @@ import {
   RangeControl,
   SelectControl,
 } from "@wordpress/components";
+
+function PostThumbnail({ mediaId }) {
+  const {
+    record: media,
+    isResolving,
+    status,
+  } = useEntityRecord("postType", "attachment", mediaId, {
+    enabled: Boolean(mediaId),
+  });
+
+  if (!mediaId) {
+    return null;
+  }
+
+  if (status === "ERROR") {
+    return null;
+  }
+
+  if (isResolving) {
+    return <div className="fse-latest-posts__image">Ładowanie zdjęcia...</div>;
+  }
+
+  const imageUrl =
+    media?.media_details?.sizes?.medium_large?.source_url || media?.source_url;
+
+  if (!imageUrl) {
+    return null;
+  }
+
+  return (
+    <div className="fse-latest-posts__image">
+      <img src={imageUrl} alt={media?.alt_text || ""} />
+    </div>
+  );
+}
 
 export default function Edit({ attributes, setAttributes }) {
   const {
@@ -78,11 +113,31 @@ export default function Edit({ attributes, setAttributes }) {
     content = <p>Brak wpisów w wybranej kategorii.</p>;
   } else {
     content = (
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>{post.title?.rendered || "(Bez tytułu)"}</li>
-        ))}
-      </ul>
+      <div className="fse-latest-posts__grid">
+        {posts.map((post) => {
+          return (
+            <article key={post.id} className="fse-latest-posts__card">
+              <PostThumbnail mediaId={post.featured_media} />
+
+              <div className="fse-latest-posts__content">
+                <time className="fse-latest-posts__date" dateTime={post.date}>
+                  {new Date(post.date).toLocaleDateString("pl-PL")}
+                </time>
+
+                <h3 className="fse-latest-posts__title">
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: post.title?.rendered || "(Bez tytułu)",
+                    }}
+                  />
+                </h3>
+
+                <span className="fse-latest-posts__more">Czytaj więcej →</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
     );
   }
 
