@@ -36,11 +36,37 @@ function createPostCard(post, settings) {
 
     const img = document.createElement("img");
 
-    img.src =
-      image.media_details?.sizes?.medium_large?.source_url || image.source_url;
+    const imageSizes = image.media_details?.sizes || {};
 
+    const preferredImage =
+      imageSizes.medium_large || imageSizes.medium || imageSizes.full;
+
+    img.src = preferredImage?.source_url || image.source_url;
     img.alt = "";
     img.loading = "lazy";
+    img.decoding = "async";
+
+    // Wymiary pomagają przeglądarce zarezerwować miejsce.
+    if (preferredImage?.width && preferredImage?.height) {
+      img.width = preferredImage.width;
+      img.height = preferredImage.height;
+    }
+
+    // Responsywne obrazy.
+    const srcset = Object.values(imageSizes)
+      .filter(
+        (size) =>
+          size.source_url && Number.isFinite(size.width) && size.width > 0,
+      )
+      .map((size) => `${size.source_url} ${size.width}w`)
+      .join(", ");
+
+    if (srcset) {
+      img.srcset = srcset;
+
+      img.sizes =
+        "(max-width: 767px) 100vw, " + "(max-width: 1024px) 50vw, 33vw";
+    }
 
     imageLink.appendChild(img);
     card.appendChild(imageLink);
