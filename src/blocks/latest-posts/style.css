@@ -202,6 +202,18 @@
   flex: 1;
 }
 
+/* Każdy element siatki jest osobnym kontenerem */
+
+.fse-latest-posts__item {
+  container-type: inline-size;
+  min-width: 0;
+  height: 100%;
+}
+
+.fse-latest-posts__item > .fse-latest-posts__card {
+  height: 100%;
+}
+
 /* Tablet */
 
 @media (max-width: 1023px) {
@@ -233,5 +245,25 @@
     width: 100%;
     flex-basis: auto;
     aspect-ratio: 16 / 10;
+  }
+}
+
+/* Dopasowanie poziomych kart do szerokości kontenera */
+
+@container (max-width: 379px) {
+  .fse-latest-posts__card--horizontal {
+    flex-direction: column;
+  }
+
+  .fse-latest-posts__card--horizontal .fse-latest-posts__image {
+    width: 100%;
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .fse-latest-posts__card--horizontal .fse-latest-posts__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }

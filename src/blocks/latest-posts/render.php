@@ -59,6 +59,7 @@ $query = new WP_Query( $args );
             style="<?php echo esc_attr( '--fse-columns: ' . $columns . ';' ); ?>"
         >
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+            <div class="fse-latest-posts__item">
                 <article class="<?php echo esc_attr( 'fse-latest-posts__card fse-latest-posts__card--' . $card_layout ); ?>">
 
                     <?php if ( $show_image && has_post_thumbnail() ) : ?>
@@ -124,6 +125,7 @@ $query = new WP_Query( $args );
 
                     </div>
                 </article>
+            </div>
             <?php endwhile; ?>
         </div>
 

@@ -131,50 +131,54 @@ export default function Edit({ attributes, setAttributes }) {
             post.categories?.includes(category.id),
           );
           return (
-            <article
-              key={post.id}
-              className={`fse-latest-posts__card fse-latest-posts__card--${cardLayout}`}
-            >
-              {showImage && <PostThumbnail mediaId={post.featured_media} />}
+            <div className="fse-latest-posts__item" key={post.id}>
+              <article
+                key={post.id}
+                className={`fse-latest-posts__card fse-latest-posts__card--${cardLayout}`}
+              >
+                {showImage && <PostThumbnail mediaId={post.featured_media} />}
 
-              <div className="fse-latest-posts__content">
-                <div className="fse-latest-posts__meta">
-                  {firstCategory && (
-                    <span className="fse-latest-posts__category">
-                      {firstCategory.name}
-                    </span>
-                  )}
-                  {showDate && (
-                    <time
-                      className="fse-latest-posts__date"
-                      dateTime={post.date}
-                    >
-                      {new Date(post.date).toLocaleDateString("pl-PL")}
-                    </time>
-                  )}
-                </div>
-
-                <h3 className="fse-latest-posts__title">
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: post.title?.rendered || "(Bez tytułu)",
-                    }}
-                  />
-                </h3>
-
-                {showExcerpt && (
-                  <div className="fse-latest-posts__excerpt">
-                    {post.excerpt?.rendered ? (
-                      <RawHTML>{post.excerpt.rendered}</RawHTML>
-                    ) : (
-                      <p>Brak opisu wpisu.</p>
+                <div className="fse-latest-posts__content">
+                  <div className="fse-latest-posts__meta">
+                    {firstCategory && (
+                      <span className="fse-latest-posts__category">
+                        {firstCategory.name}
+                      </span>
+                    )}
+                    {showDate && (
+                      <time
+                        className="fse-latest-posts__date"
+                        dateTime={post.date}
+                      >
+                        {new Date(post.date).toLocaleDateString("pl-PL")}
+                      </time>
                     )}
                   </div>
-                )}
 
-                <span className="fse-latest-posts__more">Czytaj więcej →</span>
-              </div>
-            </article>
+                  <h3 className="fse-latest-posts__title">
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: post.title?.rendered || "(Bez tytułu)",
+                      }}
+                    />
+                  </h3>
+
+                  {showExcerpt && (
+                    <div className="fse-latest-posts__excerpt">
+                      {post.excerpt?.rendered ? (
+                        <RawHTML>{post.excerpt.rendered}</RawHTML>
+                      ) : (
+                        <p>Brak opisu wpisu.</p>
+                      )}
+                    </div>
+                  )}
+
+                  <span className="fse-latest-posts__more">
+                    Czytaj więcej →
+                  </span>
+                </div>
+              </article>
+            </div>
           );
         })}
       </div>
