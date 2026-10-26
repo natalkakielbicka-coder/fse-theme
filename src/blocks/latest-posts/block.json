@@ -47,9 +47,14 @@
     "cardLayout": {
       "type": "string",
       "default": "vertical"
+    },
+    "enableLoadMore": {
+      "type": "boolean",
+      "default": false
     }
   },
   "editorScript": "file:./index.js",
   "render": "file:./render.php",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
 }

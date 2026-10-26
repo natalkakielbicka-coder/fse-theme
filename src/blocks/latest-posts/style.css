@@ -214,6 +214,45 @@
   height: 100%;
 }
 
+.fse-latest-posts__pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.fse-latest-posts__load-more {
+  padding: 12px 28px;
+  border: 1px solid #222;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fse-latest-posts__load-more:hover {
+  background: #444;
+}
+
+.fse-latest-posts__load-more:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.fse-latest-posts__load-more:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.fse-latest-posts__status {
+  margin: 0;
+  font-size: 14px;
+}
+
 /* Tablet */
 
 @media (max-width: 1023px) {

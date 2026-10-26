@@ -40,7 +40,7 @@ $args = array(
     'orderby'             => $order_by,
     'order'               => strtoupper( $order ),
     'ignore_sticky_posts' => true,
-    'no_found_rows'       => true,
+    'no_found_rows'       => false,
 );
 
 if ( $category > 0 ) {
@@ -48,6 +48,11 @@ if ( $category > 0 ) {
 }
 
 $query = new WP_Query( $args );
+
+$enable_load_more = ! empty( $attributes['enableLoadMore'] );
+
+$total_pages = (int) $query->max_num_pages;
+$has_more_posts = $enable_load_more && $total_pages > 1;
 ?>
 
 <div <?php echo get_block_wrapper_attributes(); ?>>
@@ -128,6 +133,36 @@ $query = new WP_Query( $args );
             </div>
             <?php endwhile; ?>
         </div>
+        
+        <?php if ( $has_more_posts ) : ?>
+            <div
+                class="fse-latest-posts__pagination"
+                data-api-url="<?php echo esc_url( rest_url( 'wp/v2/posts' ) ); ?>"
+                data-page="1"
+                data-total-pages="<?php echo esc_attr( $total_pages ); ?>"
+                data-per-page="<?php echo esc_attr( $posts_to_show ); ?>"
+                data-category="<?php echo esc_attr( $category ); ?>"
+                data-order-by="<?php echo esc_attr( $order_by ); ?>"
+                data-order="<?php echo esc_attr( $order ); ?>"
+                data-card-layout="<?php echo esc_attr( $card_layout ); ?>"
+                data-show-image="<?php echo $show_image ? '1' : '0'; ?>"
+                data-show-date="<?php echo $show_date ? '1' : '0'; ?>"
+                data-show-excerpt="<?php echo $show_excerpt ? '1' : '0'; ?>"
+            >
+                <button
+                    type="button"
+                    class="fse-latest-posts__load-more"
+                >
+                    Załaduj więcej
+                </button>
+
+                <p
+                    class="fse-latest-posts__status"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+            </div>
+        <?php endif; ?>
 
         <?php wp_reset_postdata(); ?>
     <?php else : ?>

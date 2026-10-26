@@ -60,6 +60,7 @@ export default function Edit({ attributes, setAttributes }) {
     showExcerpt = true,
     columns = 3,
     cardLayout = "vertical",
+    enableLoadMore = false,
   } = attributes;
 
   // Pobieranie kategorii WordPressa
@@ -278,6 +279,13 @@ export default function Edit({ attributes, setAttributes }) {
                 },
               ]}
               onChange={(value) => setAttributes({ cardLayout: value })}
+            />
+
+            <ToggleControl
+              label="Włącz przycisk Załaduj więcej"
+              checked={enableLoadMore}
+              onChange={(value) => setAttributes({ enableLoadMore: value })}
+              __nextHasNoMarginBottom
             />
           </PanelBody>
         </PanelBody>
