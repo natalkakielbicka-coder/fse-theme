@@ -256,11 +256,18 @@ document
 
     let isLoading = false;
 
-    // --------------------------------------------------
-    // 4. Load more
-    // --------------------------------------------------
+    // ------------------------------------------
+    // Load More + Infinite Scroll
+    // ------------------------------------------
 
-    button.addEventListener("click", async () => {
+    const loadMode = pagination.dataset.loadMode || "button";
+
+    const sentinel = pagination.querySelector(".fse-latest-posts__sentinel");
+
+    let observer = null;
+    let autoPaused = false;
+
+    async function loadMore() {
       if (isLoading || currentPage >= totalPages) {
         return;
       }
@@ -268,27 +275,29 @@ document
       const nextPage = currentPage + 1;
 
       isLoading = true;
+
+      // Zapobiegamy ponownemu wyzwoleniu obserwatora.
+      observer?.unobserve(sentinel);
+
       button.disabled = true;
       button.textContent = "Ładowanie...";
 
       status.textContent = "";
       pagination.setAttribute("aria-busy", "true");
 
-      // Add skeletons
       const skeletons = [];
-      const fragment = document.createDocumentFragment();
+      const skeletonFragment = document.createDocumentFragment();
 
       for (let i = 0; i < perPage; i++) {
         const skeleton = createSkeletonCard(settings);
 
         skeletons.push(skeleton);
-        fragment.appendChild(skeleton);
+        skeletonFragment.appendChild(skeleton);
       }
 
-      grid.appendChild(fragment);
+      grid.appendChild(skeletonFragment);
 
       try {
-        // Build REST API URL
         const url = new URL(pagination.dataset.apiUrl);
 
         url.searchParams.set("page", String(nextPage));
@@ -301,7 +310,6 @@ document
           url.searchParams.set("categories", String(categoryId));
         }
 
-        // Fetch posts
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -314,16 +322,20 @@ document
           throw new Error("Invalid API response");
         }
 
-        // Prepare real cards
+        if (posts.length === 0) {
+          button.remove();
+          observer?.disconnect();
+          status.textContent = "Wszystkie wpisy załadowane.";
+          return;
+        }
+
         const postsFragment = document.createDocumentFragment();
 
         posts.forEach((post, index) => {
           const card = createPostCard(post, settings);
 
-          // Animacja tylko dla wpisów dodawanych przez AJAX.
           card.classList.add("fse-latest-posts__item--enter");
 
-          // Kolejne karty pojawiają się z niewielkim opóźnieniem.
           card.style.setProperty(
             "--fse-enter-delay",
             `${Math.min(index, 5) * 60}ms`,
@@ -332,20 +344,18 @@ document
           postsFragment.appendChild(card);
         });
 
-        // Remove skeletons before adding real cards
         skeletons.forEach((skeleton) => skeleton.remove());
 
         grid.appendChild(postsFragment);
 
-        // Update pagination
         currentPage = nextPage;
         pagination.dataset.page = String(currentPage);
 
         status.textContent = `Pobrano ${posts.length} kolejnych wpisów.`;
 
-        // Remove button when no more posts
         if (currentPage >= totalPages || posts.length < perPage) {
           button.remove();
+          observer?.disconnect();
         } else {
           button.disabled = false;
           button.textContent = "Załaduj więcej";
@@ -357,13 +367,67 @@ document
 
         button.disabled = false;
         button.textContent = "Spróbuj ponownie";
+
+        // Po błędzie wyłączamy automatyczne ponawianie.
+        // Użytkownik może użyć przycisku.
+        autoPaused = true;
+        observer?.disconnect();
+
+        pagination.classList.add("fse-latest-posts__pagination--error");
       } finally {
-        // Always clean up skeletons
         skeletons.forEach((skeleton) => skeleton.remove());
 
         pagination.removeAttribute("aria-busy");
-
         isLoading = false;
+
+        // Wznawiamy automatyczne ładowanie po sukcesie.
+        if (
+          loadMode === "auto" &&
+          !autoPaused &&
+          currentPage < totalPages &&
+          observer &&
+          sentinel
+        ) {
+          observer.observe(sentinel);
+        }
       }
+    }
+
+    // Ręczne ładowanie.
+    button.addEventListener("click", () => {
+      autoPaused = false;
+
+      pagination.classList.remove("fse-latest-posts__pagination--error");
+
+      loadMore();
     });
+
+    // Automatyczne ładowanie podczas przewijania.
+    if (loadMode === "auto" && sentinel && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+
+          if (
+            entry?.isIntersecting &&
+            !isLoading &&
+            !autoPaused &&
+            currentPage < totalPages
+          ) {
+            loadMore();
+          }
+        },
+        {
+          root: null,
+          rootMargin: "0px 0px 300px 0px",
+          threshold: 0,
+        },
+      );
+
+      observer.observe(sentinel);
+    }
+
+    if (loadMode === "auto" && !("IntersectionObserver" in window)) {
+      sentinel?.remove();
+    }
   });

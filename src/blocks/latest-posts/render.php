@@ -53,6 +53,12 @@ $enable_load_more = ! empty( $attributes['enableLoadMore'] );
 
 $total_pages = (int) $query->max_num_pages;
 $has_more_posts = $enable_load_more && $total_pages > 1;
+
+$load_more_mode = $attributes['loadMoreMode'] ?? 'button';
+
+if ( ! in_array( $load_more_mode, array( 'button', 'auto' ), true ) ) {
+    $load_more_mode = 'button';
+}
 ?>
 
 <div <?php echo get_block_wrapper_attributes(); ?>>
@@ -148,6 +154,7 @@ $has_more_posts = $enable_load_more && $total_pages > 1;
                 data-show-image="<?php echo $show_image ? '1' : '0'; ?>"
                 data-show-date="<?php echo $show_date ? '1' : '0'; ?>"
                 data-show-excerpt="<?php echo $show_excerpt ? '1' : '0'; ?>"
+                data-load-mode="<?php echo esc_attr( $load_more_mode ); ?>"
             >
                 <button
                     type="button"
@@ -155,6 +162,13 @@ $has_more_posts = $enable_load_more && $total_pages > 1;
                 >
                     Załaduj więcej
                 </button>
+
+                <?php if ( 'auto' === $load_more_mode ) : ?>
+                    <div
+                        class="fse-latest-posts__sentinel"
+                        aria-hidden="true"
+                    ></div>
+                <?php endif; ?>
 
                 <p
                     class="fse-latest-posts__status"

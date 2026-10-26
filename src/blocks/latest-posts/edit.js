@@ -61,6 +61,7 @@ export default function Edit({ attributes, setAttributes }) {
     columns = 3,
     cardLayout = "vertical",
     enableLoadMore = false,
+    loadMoreMode = "button",
   } = attributes;
 
   // Pobieranie kategorii WordPressa
@@ -287,6 +288,25 @@ export default function Edit({ attributes, setAttributes }) {
               onChange={(value) => setAttributes({ enableLoadMore: value })}
               __nextHasNoMarginBottom
             />
+
+            {enableLoadMore && (
+              <SelectControl
+                label="Sposób ładowania wpisów"
+                value={loadMoreMode}
+                options={[
+                  {
+                    label: "Przycisk Załaduj więcej",
+                    value: "button",
+                  },
+                  {
+                    label: "Automatycznie podczas przewijania",
+                    value: "auto",
+                  },
+                ]}
+                onChange={(value) => setAttributes({ loadMoreMode: value })}
+                __nextHasNoMarginBottom
+              />
+            )}
           </PanelBody>
         </PanelBody>
       </InspectorControls>

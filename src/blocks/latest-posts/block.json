@@ -51,6 +51,10 @@
     "enableLoadMore": {
       "type": "boolean",
       "default": false
+    },
+    "loadMoreMode": {
+      "type": "string",
+      "default": "button"
     }
   },
   "editorScript": "file:./index.js",
