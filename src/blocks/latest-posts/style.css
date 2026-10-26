@@ -101,21 +101,6 @@
   outline-offset: 4px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .fse-latest-posts__card,
-  .fse-latest-posts__image img {
-    transition: none;
-  }
-
-  .fse-latest-posts__card:hover {
-    transform: none;
-  }
-
-  .fse-latest-posts__card:hover .fse-latest-posts__image img {
-    transform: none;
-  }
-}
-
 /* Równa wysokość kart */
 
 .fse-latest-posts__grid {
@@ -251,6 +236,81 @@
 .fse-latest-posts__status {
   margin: 0;
   font-size: 14px;
+}
+
+/* Skeleton loading */
+
+.fse-latest-posts__skeleton {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.fse-latest-posts__skeleton-image {
+  aspect-ratio: 16 / 10;
+  background: #e8e8e8;
+}
+
+.fse-latest-posts__skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+}
+
+.fse-latest-posts__skeleton-line {
+  width: 100%;
+  height: 14px;
+  border-radius: 5px;
+  background: #e8e8e8;
+}
+
+.fse-latest-posts__skeleton-line.short {
+  width: 35%;
+}
+
+.fse-latest-posts__skeleton-line.medium {
+  width: 65%;
+}
+
+/* Animacja pulsowania */
+
+.fse-latest-posts__skeleton-image,
+.fse-latest-posts__skeleton-line {
+  animation: fse-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes fse-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fse-latest-posts__card,
+  .fse-latest-posts__image img {
+    transition: none;
+  }
+
+  .fse-latest-posts__card:hover {
+    transform: none;
+  }
+
+  .fse-latest-posts__card:hover .fse-latest-posts__image img {
+    transform: none;
+  }
+
+  .fse-latest-posts__skeleton-image,
+  .fse-latest-posts__skeleton-line {
+    animation: none;
+  }
 }
 
 /* Tablet */
