@@ -355,6 +355,21 @@
   clip-path: none;
 }
 
+.fse-latest-posts__pause-auto {
+  padding: 10px 18px;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.fse-latest-posts__pause-auto:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
 @keyframes fse-post-enter {
   from {
     opacity: 0;

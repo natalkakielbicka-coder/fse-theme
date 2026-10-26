@@ -267,6 +267,32 @@ document
     let observer = null;
     let autoPaused = false;
 
+    const pauseButton = pagination.querySelector(
+      ".fse-latest-posts__pause-auto",
+    );
+
+    pauseButton?.addEventListener("click", () => {
+      autoPaused = !autoPaused;
+
+      if (autoPaused) {
+        observer?.disconnect();
+
+        pauseButton.textContent = "Wznów automatyczne ładowanie";
+
+        status.textContent = "Automatyczne ładowanie zatrzymane.";
+      } else {
+        pauseButton.textContent = "Zatrzymaj automatyczne ładowanie";
+
+        status.textContent = "Automatyczne ładowanie wznowione.";
+
+        if (!isLoading && currentPage < totalPages && sentinel) {
+          observer?.observe(sentinel);
+        }
+      }
+
+      pauseButton.setAttribute("aria-pressed", String(autoPaused));
+    });
+
     async function loadMore() {
       if (isLoading || currentPage >= totalPages) {
         return;
@@ -282,7 +308,7 @@ document
       button.disabled = true;
       button.textContent = "Ładowanie...";
 
-      status.textContent = "";
+      status.textContent = "Ładowanie kolejnych wpisów...";
       pagination.setAttribute("aria-busy", "true");
 
       const skeletons = [];
@@ -346,6 +372,12 @@ document
 
         skeletons.forEach((skeleton) => skeleton.remove());
 
+        const wasButtonFocused = document.activeElement === button;
+
+        const firstNewCard = postsFragment.querySelector(
+          ".fse-latest-posts__title a",
+        );
+
         grid.appendChild(postsFragment);
 
         currentPage = nextPage;
@@ -354,6 +386,10 @@ document
         status.textContent = `Pobrano ${posts.length} kolejnych wpisów.`;
 
         if (currentPage >= totalPages || posts.length < perPage) {
+          if (wasButtonFocused && firstNewCard) {
+            firstNewCard.focus({ preventScroll: true });
+          }
+
           button.remove();
           observer?.disconnect();
         } else {

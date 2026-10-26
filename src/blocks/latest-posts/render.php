@@ -156,6 +156,17 @@ if ( ! in_array( $load_more_mode, array( 'button', 'auto' ), true ) ) {
                 data-show-excerpt="<?php echo $show_excerpt ? '1' : '0'; ?>"
                 data-load-mode="<?php echo esc_attr( $load_more_mode ); ?>"
             >
+                
+                <?php if ( 'auto' === $load_more_mode ) : ?>
+                    <button
+                        type="button"
+                        class="fse-latest-posts__pause-auto"
+                        aria-pressed="false"
+                    >
+                        Zatrzymaj automatyczne ładowanie
+                    </button>
+                <?php endif; ?>
+
                 <button
                     type="button"
                     class="fse-latest-posts__load-more"
@@ -174,6 +185,7 @@ if ( ! in_array( $load_more_mode, array( 'button', 'auto' ), true ) ) {
                     class="fse-latest-posts__status"
                     role="status"
                     aria-live="polite"
+                    aria-atomic="true"
                 ></p>
             </div>
         <?php endif; ?>
