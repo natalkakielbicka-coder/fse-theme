@@ -282,6 +282,25 @@
   animation: fse-skeleton-pulse 1.4s ease-in-out infinite;
 }
 
+/* FSE Latest Posts — AJAX entrance animation */
+
+.fse-latest-posts__item--enter {
+  animation: fse-post-enter 0.45s ease-out both;
+  animation-delay: var(--fse-enter-delay, 0ms);
+}
+
+@keyframes fse-post-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fse-skeleton-pulse {
   0%,
   100% {
@@ -308,7 +327,8 @@
   }
 
   .fse-latest-posts__skeleton-image,
-  .fse-latest-posts__skeleton-line {
+  .fse-latest-posts__skeleton-line,
+  .fse-latest-posts__item--enter {
     animation: none;
   }
 }

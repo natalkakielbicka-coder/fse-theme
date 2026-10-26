@@ -291,8 +291,19 @@ document
         // Prepare real cards
         const postsFragment = document.createDocumentFragment();
 
-        posts.forEach((post) => {
-          postsFragment.appendChild(createPostCard(post, settings));
+        posts.forEach((post, index) => {
+          const card = createPostCard(post, settings);
+
+          // Animacja tylko dla wpisów dodawanych przez AJAX.
+          card.classList.add("fse-latest-posts__item--enter");
+
+          // Kolejne karty pojawiają się z niewielkim opóźnieniem.
+          card.style.setProperty(
+            "--fse-enter-delay",
+            `${Math.min(index, 5) * 60}ms`,
+          );
+
+          postsFragment.appendChild(card);
         });
 
         // Remove skeletons before adding real cards
