@@ -2,12 +2,6 @@
 
 A custom **Full Site Editing** block theme built with `theme.json`, HTML templates, block patterns and custom Gutenberg blocks — no page builder. Every layout is editable in the Site Editor. The custom blocks are covered by **Playwright** end-to-end tests.
 
-![FSE Theme — front page](docs/screenshot.png)
-
-<!-- TODO: dodaj zrzut ekranu (np. docs/screenshot.png) oraz screenshot.png w katalogu głównym, żeby motyw miał miniaturę w panelu WordPressa -->
-
-<!-- TODO (opcjonalnie): **Live demo:** https://... -->
-
 ## Highlights
 
 - **Pure block theme** — global styles, typography, colours and spacing defined in `theme.json`
